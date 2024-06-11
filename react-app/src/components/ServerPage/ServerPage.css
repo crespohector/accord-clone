@@ -1,0 +1,312 @@
+ #root {
+    overflow:hidden;
+}
+
+/* #html::-webkit-scrollbar {
+    display: none;
+}
+#server-page-container {
+    display:flex;
+    overflow-y: hidden scroll;
+}  */
+
+.server-page {
+    display: grid;
+    position: fixed;
+    grid-template-columns: 52px 80px 120px 1fr 1fr 1fr 1fr 1fr 1fr 130px 125px;
+    /* sizing for navbar may be off due to grid size being larger
+    than the chat and server name bar */
+    /* grid-template-rows: 50px 400px 400px 90px ; */
+    grid-template-rows: 50px 400px 400px 400px 300px;
+    grid-template-areas:
+    "name name name channel-name channel-name channel-name channel-name channel-name channel-name options options"
+    "channels channels channels chat chat chat chat chat chat users users"
+    "channels channels channels chat chat chat chat chat chat users users"
+    "channels channels channels chat chat chat chat chat chat users users"
+    "channels channels channels msg msg msg msg msg msg users users";
+    height: 100vh;
+}
+
+.name {
+    display: flex;
+    align-items: center;
+    /* padding-left: 10px; */
+    /* padding-top: 15px; */
+    background-color: #2b3352;
+    grid-area: name;
+    color: #dcddde;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid black;
+    box-shadow: rgba(4, 4, 5, 0.2) 0px 1px 0px;
+    transition: background-color ease 0.1s;
+    color: #dcddde;
+    background-color: #2e3236;
+    padding-left: 5px;
+}
+
+.name:hover {
+    background-color: #34373C;
+}
+
+#delete-server {
+    background-color: #36393F;
+    border: none;
+    border: 1px solid black;
+    border-radius: 5px;
+    position: absolute;
+    left: 180px;
+    transition: background-color .2s;
+    cursor: pointer;
+
+}
+
+#delete-server a {
+    text-decoration: none;
+    color: #BBBABD;
+}
+
+#delete-server:hover {
+    background-color: #444850;
+}
+
+.categories {
+    background-color: #2F3136;
+    grid-area: channels;
+    height: 100%;
+    padding-top: 20px;
+    overflow-y: hidden scroll;
+    /* position: fixed;
+    left: 72px;
+    top: 50px;
+    width: 15%; */
+}
+/*
+.categories::-webkit-scrollbar {
+    background-color: #2F3136;
+    width: 5px;
+} */
+
+
+.categories li {
+    /* list-style-image: url("../../images/1247106.png"); */
+    list-style-type: none;
+}
+
+#category {
+    padding-left: 15px;
+}
+
+.chat-div {
+    background-color: #32353a;
+    grid-area: chat;
+    width: 100%;
+    height: 850px;
+    color: #dcddde;
+    overflow-y: auto;
+}
+.chat-div {
+    overflow-y: scroll;
+    position: relative;
+    overflow-x: hidden;
+    /* left: 32px;
+    top: 50px; */
+}
+
+.channel {
+    color: #8e9296;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+
+}
+
+.text-channels a{
+    text-decoration: none;
+}
+
+li.channel {
+    font-size: 14px;
+    width: 50px;
+}
+
+.text-channels {
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+
+.li.channel:hover {
+    background-color: #6f7580;
+    color: white;
+}
+
+#channel {
+    /* list-style-image: url("../../images/1247106.png"); */
+    color: #8e9296;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 5px;
+}
+
+#channel:hover {
+    background-color: #6f7580;
+    color: white;
+    width: 100%;
+    padding-right: 30px;
+
+}
+
+.channel-name {
+    display: inline-block;
+    background-color: #32353a;
+    grid-area: channel-name;
+    border-bottom: 1px solid rgb(16, 16, 16);
+    box-shadow: rgba(4, 4, 5, 0.2) 0px 1px 0px;
+    padding-left: 20px;
+    padding-top: 17px;
+}
+
+.channel-text {
+    color: #dcddde;
+}
+
+.hash {
+    content:url("../../images/hash.png");
+}
+
+.options {
+    grid-area: options;
+    background-color: #32353a;
+    border-bottom: 1px solid rgb(16, 16, 16);
+    box-shadow: rgba(4, 4, 5, 0.2) 0px 1px 0px;
+}
+
+
+.chat-div::-webkit-scrollbar {
+    background-color: #32353a;
+}
+/* #top_level_chat {
+    position: relative;
+} */
+
+#top_level {
+    height: 90%;
+    grid-area: chat;
+    width: 1500px;
+    overflow-wrap: normal;
+}
+
+#top_level_chat {
+    position: fixed;
+    bottom: 15px;
+    left: 3;
+    overflow-y: hidden;
+}
+.sqr {
+    grid-area: chat;
+    background-color: #36393F;
+}
+
+.members-div {
+    grid-area: users;
+    background-color: #32353a;
+    height: 100%;
+}
+
+.user {
+    padding-top: 20px;
+    padding-left: 20px;
+    list-style-type: none;
+    color: #8e9296;
+}
+
+.edit-channel {
+    position: absolute;
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	outline: inherit;
+    font-size: 16px;
+    left: 230px;
+    cursor: pointer;
+}
+
+
+/* The About btn */
+.about-btn {
+    background-color: rgb(100, 99, 99);
+    border-radius: 5px;
+    position: fixed;
+    right: 30px;
+    bottom: 10px;
+ }
+
+
+ /* Edit/Delete modal */
+ #modal_channel {
+    width: 40%;
+    height: 45%;
+    background-color: rgb(226, 224, 224);
+    margin: auto;
+    margin-top: 21vh;
+    border-radius: 5px;
+    outline: none;
+    padding: 2px;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+ }
+
+ .edit-label {
+     font-size: 1.4em;
+ }
+
+ .form_input {
+    width: 100%;
+    color: black;
+    border: none;
+    height: 35px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    margin: 5px auto;
+ }
+
+ #edit-form_button {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #747F8D;
+    color: white;
+    outline: none;
+    border: none;
+    height: 35px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+ }
+
+ #edit-form_button:hover {
+    background-color: #68727F;
+ }
+
+ .delete-btn_channel {
+    width: 100%;
+    margin-top: 10px;
+    background-color: #6289bd;
+    color: white;
+    outline: none;
+    border: none;
+    height: 35px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+ }
+
+.delete-btn_channel:hover {
+    background-color: #577aa8;
+}
