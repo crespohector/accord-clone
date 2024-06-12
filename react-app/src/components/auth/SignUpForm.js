@@ -67,9 +67,9 @@ const SignUpForm = () => {
         <h1 id="signup__title">Create an account</h1>
 
         {errors.length > 0 &&
-          <div className="errors">
+          <div>
             {errors.map((error, idx) => (
-              <h5 key={idx}>{error}</h5>
+              <h5  className="errors" key={idx}>{error}</h5>
             ))}
           </div>
         }

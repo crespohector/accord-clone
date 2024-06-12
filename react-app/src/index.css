@@ -10,3 +10,8 @@
 main {
     width: calc(100vw - 81px)
 }
+
+.errors {
+    color: red;
+    text-align: center;
+    margin: 10px 0px }
