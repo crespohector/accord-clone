@@ -17,7 +17,14 @@ const LoginForm = () => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
     if (data.errors) {
-      setErrors(data.errors);
+      console.log(data.errors)
+      const arr = [];
+      data.errors.forEach(error => {
+        // "Email : email is invalid" => slice the error string after the ":"
+        const startIdx = error.indexOf(":") + 2;
+        arr.push(error.slice(startIdx));
+      })
+      setErrors(arr)
     }
   };
 
@@ -44,20 +51,15 @@ const LoginForm = () => {
     return <Redirect to="/" />;
   }
 
-
-
   return (
     <div id="login__background">
-      {/* <h1>Hello</h1> */}
       <div id="login__container">
         <h1 id="login__title">Welcome back!</h1>
         <h3 id="login__title--subtitle">We're so excited to see you again!</h3>
         <form onSubmit={onLogin} id="login__form">
-          <div>
             {errors.map((error) => (
-              <div key={error}>{error}</div>
+              <h5 className="errors" key={error}>{error}</h5>
             ))}
-          </div>
           <div>
             <label htmlFor="email">Email</label>
             <input
@@ -65,6 +67,7 @@ const LoginForm = () => {
               type="text"
               value={email}
               onChange={updateEmail}
+              required
             />
           </div>
           <div>
@@ -74,6 +77,7 @@ const LoginForm = () => {
               type="password"
               value={password}
               onChange={updatePassword}
+              required
             />
           </div>
           <button type="submit" id="button1">Login</button>
