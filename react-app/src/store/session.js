@@ -77,7 +77,8 @@ export const authenticate = () => async (dispatch) => {
     }
 
     dispatch(setUser(data))
-    return {};
+
+    return {status: "successful"}
   }
 
 export default function reducer(state=initialState, action) {
