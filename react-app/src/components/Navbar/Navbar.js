@@ -4,7 +4,6 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ContextMenuTrigger } from "react-contextmenu";
-// import { getUsersServers } from "../../store/servers";
 import { allServersByUserId } from "../../store/user_server";
 // import {joinServer} from "../../store/discover";
 import { addServer } from "../../store/servers";
@@ -17,9 +16,8 @@ const NavBar = () => {
 
   const dispatch = useDispatch();
   const usersServers = useSelector(state => state.user_server.servers);
-  // console.log(usersServers)
-  // use state for modal
-  const [open, setOpen] = useState(false);
+  const servers = useSelector(state => state.servers.servers);
+  const [open, setOpen] = useState(false); // use state for modal
   const [server_name, setServerName] = useState('');
   const [img_url, setServerImg] = useState('');
 
@@ -32,9 +30,10 @@ const NavBar = () => {
     setOpen(false);
   };
 
-  const createServer = (e) => {
+  const createServer = async (e) => {
     e.preventDefault();
-    dispatch(addServer(img_url, server_name))
+    await dispatch(addServer(img_url, server_name))
+    await dispatch(allServersByUserId());
     setOpen(false)
   }
 
@@ -55,13 +54,13 @@ const NavBar = () => {
         open={open}
         onClose={handleClose}
         >
-        <div id="create_server_modal">
+        <div id="create_server_modal" className='modal'>
           <h1>Create a server</h1>
-          <form onSubmit={createServer}>
+          <form onSubmit={createServer} className='form'>
             <label className="form_label">Image Url</label>
-            <input type="text" name="image_url" className="form_input" onChange={e => setServerImg(e.target.value)} required></input>
+            <input type="text" name="image_url" className="form-input" onChange={e => setServerImg(e.target.value)} required></input>
             <label className="form_label">Server Name</label>
-            <input type="text" name="server_name" className="form_input" onChange={e => setServerName(e.target.value)} required></input>
+            <input type="text" name="server_name" className="form-input" onChange={e => setServerName(e.target.value)} required></input>
             <button type="submit" id="form_button">Create a Server</button>
           </form>
         </div>
@@ -77,8 +76,8 @@ const NavBar = () => {
           <div id="home__border"></div>
         </div>
         {
-          usersServers.map((server) => (
-            <li key={server.server_name} className="user_server-div">
+          usersServers.map((server, idx) => (
+            <li key={idx} className="user_server-div">
               <NavLink to={`/servers/${server.id}`}>
                 <img className="user_server-img" alt="" src={server?.img_url}></img>
               </NavLink>
@@ -92,8 +91,8 @@ const NavBar = () => {
               <div className="create-server-icon">
                 {/* <img className="create-server-img">PLUS SIGN HERE</img> */}
                 <svg id="Component_1_3" data-name="Component 1 – 3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                  <line id="Line_1" data-name="Line 1" y2="16" transform="translate(8)" fill="none" stroke="#FFFFFF" stroke-width="1"/>
-                  <line id="Line_2" data-name="Line 2" x2="16" transform="translate(0 8)" fill="none" stroke="#FFFFFF" stroke-width="1"/>
+                  <line id="Line_1" data-name="Line 1" y2="16" transform="translate(8)" fill="none" stroke="#FFFFFF" strokeWidth="1"/>
+                  <line id="Line_2" data-name="Line 2" x2="16" transform="translate(0 8)" fill="none" stroke="#FFFFFF" strokeWidth="1"/>
                 </svg>
               </div>
           </li>

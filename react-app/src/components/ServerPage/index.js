@@ -93,14 +93,14 @@ const ServerPage = () => {
         >
           <div id="modal_channel">
             <h1>Edit/Delete Channel</h1>
-            <form>
+            <form className="form">
               <label htmlFor="channel-name" className="edit-label">
                 Edit Channel
               </label>
               <input
                 type="text"
                 name="channel_name"
-                className="form_input"
+                className="form-input"
                 value={channelTitle}
                 onChange={(e) => setChannelTitle(e.target.value)}
                 required

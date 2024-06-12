@@ -56,8 +56,8 @@ const LoginForm = () => {
         <h1 id="login__title">Welcome back!</h1>
         <h3 id="login__title--subtitle">We're so excited to see you again!</h3>
         <form onSubmit={onLogin} id="login__form">
-            {errors.map((error) => (
-              <h5 className="errors" key={error}>{error}</h5>
+            {errors.map((error, idx) => (
+              <h5 className="errors" key={idx}>{error}</h5>
             ))}
           <div>
             <label htmlFor="email">Email</label>

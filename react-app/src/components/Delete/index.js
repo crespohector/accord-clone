@@ -15,14 +15,14 @@ function Delete() {
    const server = useSelector((state) => {
       return state.servers.current.server;
    });
-   
-   
+
+
    const deleteServ = (e) => {
       e.preventDefault();
       dispatch(deleteServer(Number(id)))
       history.push("/")
    }
-   
+
    useEffect(() => {
       dispatch(getServer(Number(id)))
     },[dispatch])

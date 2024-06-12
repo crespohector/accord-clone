@@ -265,18 +265,6 @@ li.channel {
      font-size: 1.4em;
  }
 
- .form_input {
-    width: 100%;
-    color: black;
-    border: none;
-    height: 35px;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 14px;
-    text-align: center;
-    margin: 5px auto;
- }
-
  #edit-form_button {
     width: 100%;
     margin-top: 20px;

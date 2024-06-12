@@ -8,7 +8,7 @@ server_routes = Blueprint("server", __name__)
 @server_routes.route("/", methods=["GET"])
 def getServers():
     '''
-    get user's servers
+    get all servers
     '''
     servers = Server.query.all()
     return {"servers": [server.to_dict() for server in servers]}
@@ -23,7 +23,6 @@ def post_server():
     user = User.query.get(current_user.id)
 
     form['csrf_token'].data = request.cookies['csrf_token']
-    print("WE ARE TRYING TO GET THE USER ID", user.id)
     if form.validate_on_submit():
         server = Server(
             server_name=form.data['server_name'],
