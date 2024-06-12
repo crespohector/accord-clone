@@ -17,7 +17,6 @@ const LoginForm = () => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
     if (data.errors) {
-      console.log(data.errors)
       const arr = [];
       data.errors.forEach(error => {
         // "Email : email is invalid" => slice the error string after the ":"
