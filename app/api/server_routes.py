@@ -45,17 +45,38 @@ def post_server():
         return server.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
+@server_routes.route('/<id>', methods=["PUT"])
+def update_server(id):
+    '''
+    UPDATE a server
+    '''
+    server = Server.query.get(id)
+    form = ServerForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+
+        server["server_name"] = form.data['server_name']
+        server["img_url"] = form.data['img_url']
+        server["owner_id"] = current_user.id
+
+        db.session.add(server)
+        db.session.commit()
+
+        return server.to_dict()
+
+    # if validation fails
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
 @server_routes.route('/<id>', methods=["DELETE"])
 def server(id):
     '''
     Delete a server
     '''
-
-    print("TRYING TO SEE IF I GET THE ID", id)
     server = Server.query.get(id)
     db.session.delete(server)
     db.session.commit()
-    return {"server": server.to_dict()}
+    return server.to_dict()
 
 
 @server_routes.route('/<id>', methods=["GET"])
@@ -65,7 +86,5 @@ def get_server(id):
     '''
 
     server = Server.query.get(id)
-    print("THE SERVER WE ARE TRYING TO GET", server)
     test = server.to_dict
-    print("SERVER TO DICT METHOD", test)
     return {"server": server.to_dict()}

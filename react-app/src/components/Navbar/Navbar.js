@@ -1,22 +1,17 @@
 import React, {useState} from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
-// import LogoutButton from '../auth/LogoutButton';
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ContextMenuTrigger } from "react-contextmenu";
-import { allServersByUserId } from "../../store/user_server";
-// import {joinServer} from "../../store/discover";
+import { allServersByUserId } from "../../store/servers";
 import { addServer } from "../../store/servers";
 import Modal from '@material-ui/core/Modal';
 import './Navbar.css'
 
 const NavBar = () => {
 
-  let history = useHistory()
-
   const dispatch = useDispatch();
-  const usersServers = useSelector(state => state.user_server.servers);
-  const servers = useSelector(state => state.servers.servers);
+  const usersServers = Object.values(useSelector(state => state.servers.userServers));
   const [open, setOpen] = useState(false); // use state for modal
   const [server_name, setServerName] = useState('');
   const [img_url, setServerImg] = useState('');
@@ -33,16 +28,12 @@ const NavBar = () => {
   const createServer = async (e) => {
     e.preventDefault();
     await dispatch(addServer(img_url, server_name))
-    await dispatch(allServersByUserId());
     setOpen(false)
   }
 
   useEffect(() => {
     dispatch(allServersByUserId())
   }, [dispatch]);
-
-  if(!usersServers) dispatch(allServersByUserId());
-  if(!usersServers) return null;
 
   return (
     <nav className="navbar">
