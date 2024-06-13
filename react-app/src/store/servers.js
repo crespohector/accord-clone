@@ -99,7 +99,6 @@ export const updateServer = (serverId, imgUrl, serverName) => async (dispatch) =
     body: JSON.stringify({
       img_url: imgUrl,
       server_name: serverName,
-      server_id: serverId
     })
   })
   const data = await res.json();
@@ -112,14 +111,14 @@ export const deleteServer = (id) => async (dispatch) => {
     method: "DELETE",
   })
   const data = await res.json();
-  console.log('DELETE: ', data);
   dispatch(delete_server(data));
   return;
 }
 
 const initialState = {
   allServers: {},
-  userServers: {}
+  userServers: {},
+  currentServer: {},
 };
 
 const serversReducer = (state = initialState, action) => {
@@ -127,7 +126,7 @@ const serversReducer = (state = initialState, action) => {
   const newState = {
     allServers: { ...state.allServers },
     userServers: { ...state.userServers },
-    currentServer: {},
+    currentServer: { ...state.currentServer},
   };
 
   switch (action.type) {
@@ -165,6 +164,7 @@ const serversReducer = (state = initialState, action) => {
       // update the server in both states
       newState.allServers[action.server.id] = action.server;
       newState.userServers[action.server.id] = action.server;
+      newState.currentServer = action.server;
       return newState;
     }
 

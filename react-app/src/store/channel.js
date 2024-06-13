@@ -25,7 +25,6 @@ export const allChannels = () => async (dispatch) => {
         }
     });
     const data = await response.json();
-    // console.log("All Channels: ", data)
     dispatch(get_channel(data))
     return ;
 }
@@ -34,7 +33,6 @@ export const allChannels = () => async (dispatch) => {
 export const getChannelsServer = (server_id) => async (dispatch) => {
     const response = await fetch(`/api/channels/server/${server_id}`)
     const data = await response.json();
-    // console.log("get channel on server data: ", data)
     dispatch(get_channel(data))
     return ;
 }
@@ -43,7 +41,6 @@ export const getChannelsServer = (server_id) => async (dispatch) => {
 export const getChannelsCategory = (category_id) => async (dispatch) => {
     const response = await fetch(`/api/channels/category/${category_id}`)
     const data = await response.json();
-    // console.log("get channel on category data: ", data)
     dispatch(get_channel(data))
     return ;
 }
@@ -62,7 +59,6 @@ export const addChannel = (title, server_id, category_id ) => async (dispatch) =
         }),
     })
     const data = await res.json();
-    // console.log('Created New Channel: ', data)
     // dispatch(add_channel(data));
     return ;
 }
@@ -79,7 +75,6 @@ export const editChannel = (id, title) => async (dispatch) => {
         }),
     })
     const data = await res.json();
-    // console.log("Channel is edited: ", data);
     dispatch(add_channel(data))
     return ;
 }
@@ -90,33 +85,34 @@ export const deleteChannel = (id) => async (dispatch) => {
         method: "DELETE"
     })
     const data = await res.json();
-    // console.log("Channel is deleted: ", data);
     dispatch(delete_channel(data));
     return ;
 }
 
 const channelReducer = (state={}, action) => {
-    let newState;
+
+    const newState = {...state};
+
     switch (action.type) {
+
         case GET_CHANNEL:
-            newState = {...state};
             action.payload["channels"].forEach(channel => {
                 newState[channel.id] = channel;
             });
             return newState;
 
         case ADD_CHANNEL:
-            newState = {...state};
             newState[action.payload.id] = action.payload;
             return newState;
 
+        //Update case
+
         case DELETE_CHANNEL:
-            newState = {...state};
             delete newState[action.payload.id];
             return newState;
 
         default:
-            return state;
+            return newState;
     }
 }
 

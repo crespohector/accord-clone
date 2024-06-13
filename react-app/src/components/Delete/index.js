@@ -26,15 +26,13 @@ function Delete() {
 
    return(
       <div id="delete__container">
-         <div id="form__container">
             <form onSubmit={deleteServ}>
                <h1 id="server__question">Do you want to delete server {server?.name}?</h1>
                <button type="submit" id="delete" className="delete__buttons">Delete</button>
-               <NavLink to="/">
+               <NavLink to={`/servers/${server?.id}`}>
                   <button id="cancel" className="delete__buttons">Cancel</button>
                </NavLink>
             </form>
-         </div>
       </div>
    )
 }

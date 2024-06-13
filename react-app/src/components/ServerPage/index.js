@@ -20,7 +20,6 @@ const ServerPage = () => {
   const [open, setOpen] = useState(false);
   const [channel, setChannel] = useState({});
   const [channelTitle, setChannelTitle] = useState('');
-  const userId = useSelector((state) => state.session?.user?.id);
   const server = useSelector(state => state.servers?.currentServer)
   const channels = useSelector((state) => {
     return Object.values(state.channel);
@@ -111,32 +110,22 @@ const ServerPage = () => {
 
         <div className="name">
           <div>{server?.name}</div>
-          <button id="delete-server">
+          <button className="server-btn">
+            <NavLink to={`/servers/${id}/update`} id="textt">
+              update
+            </NavLink>
+          </button>
+          <button className="server-btn">
             <NavLink to={`/servers/${id}/delete`} id="textt">
               delete
             </NavLink>
           </button>
         </div>
 
-
-        {/* <div className="name">
-        <div>{server?.name}</div>
-        <button id="delete-server">
-          <NavLink to={`/servers/${id}/delete`}>
-            delete
-          </NavLink>
-        </button>
-      </div> */}
-
         <UserBar />
 
         <div className="categories">
           <div>
-            {/* {channels?.map((channel) => (
-          <li className="channel">
-            {`${channel.title}`}
-            </li>))}
-            </div> */}
             {categories.map((category) => (
               <div key={category.id} id="category" className="channel">
                 {`${category.title.toUpperCase()}`}

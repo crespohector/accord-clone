@@ -45,7 +45,7 @@ def post_server():
         return server.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
-@server_routes.route('/<id>', methods=["PUT"])
+@server_routes.route('/<id>/', methods=["PUT"])
 def update_server(id):
     '''
     UPDATE a server
@@ -56,11 +56,10 @@ def update_server(id):
 
     if form.validate_on_submit():
 
-        server["server_name"] = form.data['server_name']
-        server["img_url"] = form.data['img_url']
-        server["owner_id"] = current_user.id
+        server.server_name = form.data['server_name']
+        server.img_url = form.data['img_url']
+        server.owner_id = current_user.id
 
-        db.session.add(server)
         db.session.commit()
 
         return server.to_dict()
