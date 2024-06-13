@@ -2,9 +2,14 @@
 const LOAD_ALL_SERVERS = "servers/LOAD_ALL_SERVERS";
 const ADD_SERVER = "servers/ADD_SERVER"
 const DELETE_SERVER = "servers/DELETE_SERVER"
-const GET_SERVER = "servers/GET_SERVER"
+const LOAD_CURRENT_SERVER = "servers/LOAD_CURRENT_SERVER"
 const LOAD_USER_SERVERS = "servers/LOAD_USER_SERVERS"
 const UPDATE_SERVER = 'servers/UPDATE_SERVER';
+
+const loadCurrentServer = (server) => ({
+  type: LOAD_CURRENT_SERVER,
+  server
+})
 
 const load = (servers) => ({
   type: LOAD_ALL_SERVERS,
@@ -31,11 +36,6 @@ const delete_server = (server) => ({
   server
 })
 
-const get_server = (server) => ({
-  type: GET_SERVER,
-  server
-})
-
 // GET - get a single server
 export const getServer = (id) => async (dispatch) => {
   const res = await fetch(`/api/servers/${id}`, {
@@ -45,7 +45,7 @@ export const getServer = (id) => async (dispatch) => {
     },
   });
   const data = await res.json();
-  dispatch(get_server(data));
+  dispatch(loadCurrentServer(data));
 }
 
 // GET - all servers that exist
@@ -112,6 +112,7 @@ export const deleteServer = (id) => async (dispatch) => {
     method: "DELETE",
   })
   const data = await res.json();
+  console.log('DELETE: ', data);
   dispatch(delete_server(data));
   return;
 }
@@ -125,7 +126,8 @@ const serversReducer = (state = initialState, action) => {
 
   const newState = {
     allServers: { ...state.allServers },
-    userServers: { ...state.userServers }
+    userServers: { ...state.userServers },
+    currentServer: {},
   };
 
   switch (action.type) {
@@ -146,6 +148,12 @@ const serversReducer = (state = initialState, action) => {
       return newState;
     }
 
+    case LOAD_CURRENT_SERVER: {
+      // save current server that the user clicked on
+      newState.currentServer = action.server.server;
+      return newState;
+    }
+
     case ADD_SERVER: {
       // a new server to the allservers state and userservers state
       newState.allServers[action.server.id] = action.server;
@@ -161,9 +169,10 @@ const serversReducer = (state = initialState, action) => {
     }
 
     case DELETE_SERVER: {
-      // remove server in both states
+      // delete server in all three states
       delete newState.allServers[action.server.id];
       delete newState.userServers[action.server.id];
+      newState.currentServer = {};
       return newState;
     }
 

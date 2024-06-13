@@ -9,29 +9,20 @@ function Delete() {
 
    let dispatch = useDispatch()
    let history = useHistory()
-
    const { id } = useParams();
-
    const server = useSelector((state) => {
-      return state.servers.current.server;
+      return state.servers.currentServer;
    });
-
 
    const deleteServ = (e) => {
       e.preventDefault();
-      dispatch(deleteServer(Number(id)))
+      dispatch(deleteServer(id))
       history.push("/")
    }
 
    useEffect(() => {
-      dispatch(getServer(Number(id)))
+      dispatch(getServer(id))
     },[dispatch])
-
-    if(!server) return null;
-
-
-   // const server = servers[id]
-
 
    return(
       <div id="delete__container">

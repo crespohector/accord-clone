@@ -69,7 +69,7 @@ def update_server(id):
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @server_routes.route('/<id>', methods=["DELETE"])
-def server(id):
+def delete_server(id):
     '''
     Delete a server
     '''
@@ -84,7 +84,6 @@ def get_server(id):
     '''
     Getting current server
     '''
-
     server = Server.query.get(id)
     test = server.to_dict
     return {"server": server.to_dict()}
