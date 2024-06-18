@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
     channel,
     category,
     // discover,
-    // user_server,
+    user_server,
 });
 
 

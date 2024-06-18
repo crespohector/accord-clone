@@ -52,21 +52,18 @@ def update_server(id):
     UPDATE a server
     '''
     server = Server.query.get(id)
-    form = ServerForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
+    # grab form data from request object
+    if request.files.get("image"):
+        # check if file exist
+        image = request.files['image'].read()
+        server.img_url = image
 
-    if form.validate_on_submit():
+    name = request.form.get('name')
+    server.server_name = name
+    server.owner_id = current_user.id
 
-        server.server_name = form.data['server_name']
-        server.img_url = form.data['img_url']
-        server.owner_id = current_user.id
-
-        db.session.commit()
-
-        return server.to_dict()
-
-    # if validation fails
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    db.session.commit()
+    return server.to_dict()
 
 @server_routes.route('/<id>', methods=["DELETE"])
 def delete_server(id):

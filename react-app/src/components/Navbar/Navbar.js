@@ -41,7 +41,7 @@ const NavBar = () => {
     e.preventDefault();
     if (errorArr.length > 0) {
       setErrors(errorArr);
-      return ;
+      return;
     }
     await dispatch(addServer(serverImg, server_name))
     setOpen(false)
@@ -94,7 +94,7 @@ const NavBar = () => {
           usersServers.map((server, idx) => (
             <li key={idx} className="user_server-div">
               <NavLink to={`/servers/${server.id}`}>
-                <img className="user_server-img" alt="" src={server?.img_url}></img>
+                <img className="user_server-img" alt="server image" src={`data:image/jpeg;base64,${server?.img_url}`} />
               </NavLink>
             </li>
           ))

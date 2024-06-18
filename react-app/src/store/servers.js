@@ -91,16 +91,16 @@ export const addServer = (image, name) => async (dispatch) => {
 }
 
 //UPDATE - update a server
-export const updateServer = (serverId, imgUrl, serverName) => async (dispatch) => {
+export const updateServer = (serverId, file, serverName) => async (dispatch) => {
+
+  const formData = new FormData();
+  formData.append("image", file);
+  formData.append("name", serverName);
+
+  console.log('image: ', formData.get("image"))
   const res = await fetch(`/api/servers/${serverId}/`, {
     method: "PUT",
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      img_url: imgUrl,
-      server_name: serverName,
-    })
+    body: formData
   })
   const data = await res.json();
   dispatch(update_server(data));
@@ -135,25 +135,25 @@ const serversReducer = (state = initialState, action) => {
     case LOAD_ALL_SERVERS: {
       // normalize the servers array
       action.servers.servers.forEach(server => {
-        server.img_url = convertBase64(server.img_url);
         newState.allServers[server.id] = server;
       });
+
       return newState;
     }
 
     case LOAD_USER_SERVERS: {
       // normalize user servers list
       action.userServers.user_server.forEach(server => {
-        server.img_url = convertBase64(server.img_url);
         newState.userServers[server.id] = server;
       })
+
       return newState;
     }
 
     case LOAD_CURRENT_SERVER: {
       // save current server that the user clicked on
       newState.currentServer = action.server.server;
-      newState.currentServer.img_url = convertBase64(newState.currentServer.img_url);
+
       return newState;
     }
 
@@ -162,8 +162,6 @@ const serversReducer = (state = initialState, action) => {
       newState.allServers[action.server.id] = action.server;
       newState.userServers[action.server.id] = action.server;
 
-      newState.allServers[action.server.id].img_url = convertBase64(newState.allServers[action.server.id].img_url);
-      newState.userServers[action.server.id].img_url = convertBase64(newState.userServers[action.server.id].img_url);
       return newState;
     }
 
@@ -172,9 +170,6 @@ const serversReducer = (state = initialState, action) => {
       newState.userServers[action.server.id] = action.server;
       newState.currentServer = action.server;
 
-      newState.allServers[action.server.id].img_url = convertBase64(newState.allServers[action.server.id].img_url);
-      newState.userServers[action.server.id].img_url = convertBase64(newState.userServers[action.server.id].img_url);
-      newState.currentServer.img_url = convertBase64(newState.currentServer.img_url);
       return newState;
     }
 
@@ -183,6 +178,7 @@ const serversReducer = (state = initialState, action) => {
       delete newState.allServers[action.server.id];
       delete newState.userServers[action.server.id];
       newState.currentServer = {};
+
       return newState;
     }
 

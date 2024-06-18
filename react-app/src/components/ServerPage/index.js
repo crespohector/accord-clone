@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import LogoutButton from "../auth/LogoutButton";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getChannelsServer, editChannel, deleteChannel } from "../../store/channel";
@@ -30,9 +29,7 @@ const ServerPage = () => {
   const categories = useSelector((state) => {
     return Object.values(state.category);
   })
-  const usersByServer = useSelector((state) => {
-    return state.user_server["user"]
-  })
+  const usersByServer = useSelector((state) => state.user_server.user)
 
   // const messagesEndRef = useRef(null)
 

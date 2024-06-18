@@ -44,7 +44,7 @@ function Discover() {
                      <input type="hidden" name="server_id" value={server.id}></input>
                      <div className="server__container">
                         <div className="server__container--img">
-                           <img src={server.img_url}></img>
+                           <img src={`data:image/jpeg;base64,${server?.img_url}`}></img>
                         </div>
                         <div className="server__container--title">{server.name}</div>
                         <button type="submit" onClick={() => setServerId(server.id)} className="server__container--button">Join</button>
