@@ -19,31 +19,32 @@ def post_server():
     '''
     CREATE a server
     '''
-    form = ServerForm()
+    image = request.files['image'].read()
+    name = request.form.get('name')
+
     user = User.query.get(current_user.id)
 
-    form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        server = Server(
-            server_name=form.data['server_name'],
-            img_url=form.data['img_url'],
-            owner_id=current_user.id
-        )
-        db.session.add(user)
-        db.session.add(server)
-        user.servers.append(server)
-        db.session.commit()
+    server = Server(
+        server_name = name,
+        img_url = image,
+        owner_id = current_user.id
+    )
 
-        new_category = Category(title="General")
-        db.session.add(new_category)
-        db.session.commit()
+    # add user to the new server
+    user.servers.append(server)
+    db.session.add(user)
+    db.session.add(server)
+    db.session.commit()
 
-        new_channel = Channel(title="room 1", category_id=new_category.id, server_id=server.id)
-        db.session.add(new_channel)
-        db.session.commit()
+    new_category = Category(title="General")
+    db.session.add(new_category)
+    db.session.commit()
 
-        return server.to_dict()
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    new_channel = Channel(title="room 1", category_id=new_category.id, server_id=server.id)
+    db.session.add(new_channel)
+    db.session.commit()
+
+    return server.to_dict()
 
 @server_routes.route('/<id>/', methods=["PUT"])
 def update_server(id):

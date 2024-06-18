@@ -13,10 +13,12 @@ def getServersByUser():
     if id:
         user = User.query.get(current_user.get_id())
         user_servers = user.servers
-        return {"user_server": [userserver.to_dict() for userserver in user_servers]}
+        # serialize server instances to an object
+        servers = [userserver.to_dict() for userserver in user_servers]
+        return {"user_server": servers}
     else:
         return {}
-        
+
 
 @user_server_routes.route("/server/<id>", methods=["GET"])
 def getUsersByServer(id):

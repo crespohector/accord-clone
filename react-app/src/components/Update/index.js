@@ -3,7 +3,7 @@ import { NavLink, useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateServer, getServer } from "../../store/servers"
 
-// UPDATE - perform an update on a server
+// PUT - perform an update on a server
 
 function Update() {
    let dispatch = useDispatch()
@@ -35,7 +35,7 @@ function Update() {
                <input type="text" name="image_url" className="form-input" onChange={e => setImgUrl(e.target.value)} required></input>
 
                <label className="form_label">Server Name</label>
-               <input type="text" name="server_name" className="form-input" onChange={e => setServerName(e.target.value)} required></input>
+               <input type="text" name="server_name" className="form-input" onChange={e => setServerName(e.target.value)} required maxLength={15}></input>
 
                <button type="submit" id="delete" className="delete__buttons">Submit</button>
                <NavLink to={`/servers/${server?.id}`}>

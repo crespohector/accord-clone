@@ -4,9 +4,9 @@ import session from "./session"
 import channel from "./channel"
 import category from "./category"
 
-import discover from "./discover"
 import servers from "./servers"
 
+import discover from "./discover"
 import user_server from "./user_server";
 
 import chats from "./chats"
@@ -14,12 +14,11 @@ import chats from "./chats"
 const rootReducer = combineReducers({
     session,
     chats,
-
-    discover,
     servers,
     channel,
     category,
-    user_server,
+    // discover,
+    // user_server,
 });
 
 

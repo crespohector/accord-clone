@@ -1,3 +1,4 @@
+import convertBase64 from "../services/helperFunctions";
 
 const LOAD_ALL_SERVERS = "servers/LOAD_ALL_SERVERS";
 const ADD_SERVER = "servers/ADD_SERVER"
@@ -73,17 +74,17 @@ export const allServersByUserId = () => async (dispatch) => {
 }
 
 //POST a new server
-export const addServer = (img_url, server_name) => async (dispatch) => {
+export const addServer = (image, name) => async (dispatch) => {
+
+  const formData = new FormData();
+  formData.append('image', image);
+  formData.append('name', name);
+
   const res = await fetch('/api/servers/', {
     method: "POST",
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      img_url,
-      server_name
-    }),
+    body: formData
   })
+
   const data = await res.json();
   dispatch(add_server(data));
   return;
@@ -134,6 +135,7 @@ const serversReducer = (state = initialState, action) => {
     case LOAD_ALL_SERVERS: {
       // normalize the servers array
       action.servers.servers.forEach(server => {
+        server.img_url = convertBase64(server.img_url);
         newState.allServers[server.id] = server;
       });
       return newState;
@@ -142,6 +144,7 @@ const serversReducer = (state = initialState, action) => {
     case LOAD_USER_SERVERS: {
       // normalize user servers list
       action.userServers.user_server.forEach(server => {
+        server.img_url = convertBase64(server.img_url);
         newState.userServers[server.id] = server;
       })
       return newState;
@@ -150,6 +153,7 @@ const serversReducer = (state = initialState, action) => {
     case LOAD_CURRENT_SERVER: {
       // save current server that the user clicked on
       newState.currentServer = action.server.server;
+      newState.currentServer.img_url = convertBase64(newState.currentServer.img_url);
       return newState;
     }
 
@@ -157,14 +161,20 @@ const serversReducer = (state = initialState, action) => {
       // a new server to the allservers state and userservers state
       newState.allServers[action.server.id] = action.server;
       newState.userServers[action.server.id] = action.server;
+
+      newState.allServers[action.server.id].img_url = convertBase64(newState.allServers[action.server.id].img_url);
+      newState.userServers[action.server.id].img_url = convertBase64(newState.userServers[action.server.id].img_url);
       return newState;
     }
 
     case UPDATE_SERVER: {
-      // update the server in both states
       newState.allServers[action.server.id] = action.server;
       newState.userServers[action.server.id] = action.server;
       newState.currentServer = action.server;
+
+      newState.allServers[action.server.id].img_url = convertBase64(newState.allServers[action.server.id].img_url);
+      newState.userServers[action.server.id].img_url = convertBase64(newState.userServers[action.server.id].img_url);
+      newState.currentServer.img_url = convertBase64(newState.currentServer.img_url);
       return newState;
     }
 

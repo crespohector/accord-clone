@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect, NavLink } from "react-router-dom";
 import { login } from "../../store/session";
-import NavBar from "../Navbar/Navbar";
 
 import './LoginForm.css'
 
@@ -45,7 +44,6 @@ const LoginForm = () => {
       setErrors(data.errors);
     }
   }
-
   if (user) {
     return <Redirect to="/" />;
   }

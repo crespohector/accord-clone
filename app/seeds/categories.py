@@ -7,7 +7,7 @@ def seed_categories():
 
     gaming = Category(title='Gaming')
     study = Category(title='Study')
-    for i in range(0, 20):
+    for i in range(0, 10):
         another = Category(title=faker.word())
         db.session.add(another)
     db.session.add(gaming)
