@@ -46,15 +46,7 @@ export const getChannelsCategory = (category_id) => async (dispatch) => {
 }
 
 //POST a new channel with server id and category id
-export const addChannel = (title, server_id, category_id ) => async (dispatch) => {
-
-    /*
-        Fetch reqs
-            - need to create a new category
-                - OR reference a selected category
-            - If no category is selected then reference the default first category
-    */
-
+export const addChannel = (title, server_id ) => async (dispatch) => {
     const res = await fetch('/api/channels/', {
         method: "POST",
         headers: {
@@ -63,7 +55,6 @@ export const addChannel = (title, server_id, category_id ) => async (dispatch) =
         body: JSON.stringify({
             title,
             server_id,
-            category_id
         }),
     })
     const data = await res.json();
@@ -114,8 +105,6 @@ const channelReducer = (state={}, action) => {
         case ADD_CHANNEL:
             newState[action.payload.id] = action.payload;
             return newState;
-
-        //Update case
 
         case DELETE_CHANNEL:
             delete newState[action.payload.id];

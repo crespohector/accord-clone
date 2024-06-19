@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { NavLink, useParams, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getChannelsServer, editChannel, deleteChannel } from "../../store/channel";
+import { getChannelsServer, editChannel, deleteChannel, addChannel } from "../../store/channel";
 import { allCategories } from "../../store/category";
 import { allUsersByServerId } from "../../store/user_server";
 import { getServer, removeMemberFromServer } from "../../store/servers";
@@ -21,7 +21,6 @@ const ServerPage = () => {
   const [showCreateChannel, setShowCreateChannel] = useState(false);
   const [channel, setChannel] = useState({});
   const [channelTitle, setChannelTitle] = useState('');
-  const [category, setCategory] = useState('');
   const server = useSelector(state => state.servers?.currentServer)
   const channels = useSelector((state) => {
     return Object.values(state.channel);
@@ -92,11 +91,10 @@ const ServerPage = () => {
   const createChannel = (e) => {
     e.preventDefault();
     // on submit, dispatch create channel thunk action
-
-    // after succession, we should dynamically see the new channel being rendered.
-
+    dispatch(addChannel(channelTitle, server?.id));
     // close modal
-    setOpen(false)
+    setOpen(false);
+    setChannelTitle("");
   }
 
   return (
@@ -116,20 +114,8 @@ const ServerPage = () => {
                 value={channelTitle}
                 onChange={(e) => setChannelTitle(e.target.value)}
                 required
-                maxLength={15}
+                maxLength={14}
               ></input>
-              <label className="edit-label">
-                Select Which Category:
-              </label>
-
-              <select onChange={(e) => console.log(e.target.value)}>
-                {categories.map((cat, idx) => (
-                  <option key={idx}>
-                    {cat.title}
-                  </option>
-                ))}
-              </select>
-
               <button type="submit" id="edit-form_button">
                 Submit
               </button>
@@ -149,7 +135,7 @@ const ServerPage = () => {
                 value={channelTitle}
                 onChange={(e) => setChannelTitle(e.target.value)}
                 required
-                maxLength={15}
+                maxLength={14}
               ></input>
               <button
                 type="submit"
