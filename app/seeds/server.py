@@ -20,7 +20,7 @@ def seed_serv():
 
         with open(file_path_to_image, 'rb') as f:
             img_data = f.read()
-            rand_int = random.randint(0,5)
+            rand_int = random.randint(0,4)
             server = Server(server_name=file_name,
                             img_url=img_data,
                             owner_id=rand_int + 1)

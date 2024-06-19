@@ -42,3 +42,18 @@ def addMemberToServer(id):
         return server.to_dict()
     else:
         return {"error": "user does not exist"}, 400
+
+@user_server_routes.route("/server/<id>", methods=["DELETE"])
+def removeMemberFromServer(id):
+    '''
+    DELETE remove user member from the server
+    '''
+    user_id = current_user.get_id()
+    if user_id:
+        user = User.query.get(user_id)
+        server = Server.query.get(id)
+        user.servers.remove(server)
+        db.session.commit()
+        return server.to_dict()
+    else:
+        return {"error": "user does not exist"}, 400

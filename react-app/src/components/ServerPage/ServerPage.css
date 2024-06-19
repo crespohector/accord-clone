@@ -153,13 +153,29 @@ li.channel {
 }
 
 .channel-name {
-    display: inline-block;
+    display: flex;
+    justify-content: space-between;
     background-color: #32353a;
     grid-area: channel-name;
     border-bottom: 1px solid rgb(16, 16, 16);
     box-shadow: rgba(4, 4, 5, 0.2) 0px 1px 0px;
     padding-left: 20px;
     padding-top: 17px;
+    align-items: baseline;
+}
+
+.leave-server-btn {
+    margin-right: 10px;
+    background-color: #e43e44;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    color: #fff5fd;
+    padding: 2px 6px;
+}
+
+.leave-server-btn:active {
+    transform: scale(.98);
 }
 
 .channel-text {
