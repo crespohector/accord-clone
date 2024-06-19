@@ -119,7 +119,7 @@ const ServerPage = () => {
 
       <div className="name">
         <div>{server?.name}</div>
-        { isOwner && (
+        {isOwner && (
           <>
             <button className="server-btn">
               <NavLink to={`/servers/${id}/update`} id="textt">
@@ -172,7 +172,9 @@ const ServerPage = () => {
       </div>
       <div className="channel-name">
         <span className="channel-text"># channel</span>
-        <button className="leave-server-btn" onClick={(e) => leaveServer(e)}>Leave Server</button>
+        {isOwner ? null : (
+          <button className="leave-server-btn" onClick={(e) => leaveServer(e)}>Leave Server</button>
+        )}
       </div>
       <div className="members-div">
         {usersByServer?.map((user) => (
