@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect, NavLink } from "react-router-dom";
 import { login } from "../../store/session";
-import NavBar from "../Navbar/Navbar";
 
 import './LoginForm.css'
 
@@ -17,7 +16,6 @@ const LoginForm = () => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
     if (data.errors) {
-      console.log(data.errors)
       const arr = [];
       data.errors.forEach(error => {
         // "Email : email is invalid" => slice the error string after the ":"
@@ -46,7 +44,6 @@ const LoginForm = () => {
       setErrors(data.errors);
     }
   }
-
   if (user) {
     return <Redirect to="/" />;
   }
@@ -57,8 +54,8 @@ const LoginForm = () => {
         <h1 id="login__title">Welcome back!</h1>
         <h3 id="login__title--subtitle">We're so excited to see you again!</h3>
         <form onSubmit={onLogin} id="login__form">
-            {errors.map((error) => (
-              <h5 className="errors" key={error}>{error}</h5>
+            {errors.map((error, idx) => (
+              <h5 className="errors" key={idx}>{error}</h5>
             ))}
           <div>
             <label htmlFor="email">Email</label>

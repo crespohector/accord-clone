@@ -7,11 +7,11 @@ faker = Faker()
 def seed_users():
 
     demo = User(username='Demo', email='demo@aa.io', password='password')
-    for i in range(0, 20):
+    db.session.add(demo)
+
+    for i in range(0, 10):
         another = User(username=faker.name(), email = faker.email(), password='password')
         db.session.add(another)
-
-    db.session.add(demo)
 
     db.session.commit()
 

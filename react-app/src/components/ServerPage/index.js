@@ -1,12 +1,11 @@
 import React, { useRef } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import LogoutButton from "../auth/LogoutButton";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getChannelsServer, editChannel, deleteChannel } from "../../store/channel";
 import { allCategories } from "../../store/category";
-import { allUsersByServerId, allServersByUserId } from "../../store/user_server";
-import { getServer } from "../../store/servers";
+import { allUsersByServerId } from "../../store/user_server";
+import { getServer, allServersByUserId } from "../../store/servers";
 import UserBar from '../UserBar'
 import Chat from '../Chat/Chat'
 import About from '../auth/About';
@@ -15,16 +14,22 @@ import Modal from "@material-ui/core/Modal";
 import './ServerPage.css';
 
 const ServerPage = () => {
+  const dispatch = useDispatch();
+  const { id } = useParams();
   const [open, setOpen] = useState(false);
   const [channel, setChannel] = useState({});
   const [channelTitle, setChannelTitle] = useState('');
-  const userId = useSelector((state) => state.session?.user?.id);
-  const server = useSelector(state => state.servers?.current?.server)
-  // console.log("THIS IS THE SERVER USE SELECTOR", server)
-  const { id } = useParams();
-  const dispatch = useDispatch();
-
-
+  const server = useSelector(state => state.servers?.currentServer)
+  const channels = useSelector((state) => {
+    return Object.values(state.channel);
+  });
+  const servers = useSelector((state) => {
+    return Object.values(state?.servers?.allServers);
+  });
+  const categories = useSelector((state) => {
+    return Object.values(state.category);
+  })
+  const usersByServer = useSelector((state) => state.user_server.user)
 
   // const messagesEndRef = useRef(null)
 
@@ -36,29 +41,12 @@ const ServerPage = () => {
   //   scrollToBottom()
   // }, []);
 
-  const channels = useSelector((state) => {
-    return Object.values(state.channel);
-  });
-
   useEffect(() => {
-    dispatch(getServer((id)))
+    dispatch(getServer((id))) // dispatch load current server
     dispatch(getChannelsServer(id));
     dispatch(allCategories(id));
     dispatch(allUsersByServerId(id));
-    dispatch(allServersByUserId(userId));
   }, [dispatch, id]);
-
-  const servers = useSelector((state) => {
-    return Object.values(state?.servers?.list);
-  });
-
-  const categories = useSelector((state) => {
-    return Object.values(state.category);
-  })
-
-  const usersByServer = useSelector((state) => {
-    return state.user_server["user"]
-  })
 
   //dispatch the edit channel thunk action
   const onClickEditChannel = () => {
@@ -93,14 +81,14 @@ const ServerPage = () => {
         >
           <div id="modal_channel">
             <h1>Edit/Delete Channel</h1>
-            <form>
+            <form className="form">
               <label htmlFor="channel-name" className="edit-label">
                 Edit Channel
               </label>
               <input
                 type="text"
                 name="channel_name"
-                className="form_input"
+                className="form-input"
                 value={channelTitle}
                 onChange={(e) => setChannelTitle(e.target.value)}
                 required
@@ -119,32 +107,22 @@ const ServerPage = () => {
 
         <div className="name">
           <div>{server?.name}</div>
-          <button id="delete-server">
+          <button className="server-btn">
+            <NavLink to={`/servers/${id}/update`} id="textt">
+              update
+            </NavLink>
+          </button>
+          <button className="server-btn">
             <NavLink to={`/servers/${id}/delete`} id="textt">
               delete
             </NavLink>
           </button>
         </div>
 
-
-        {/* <div className="name">
-        <div>{server?.name}</div>
-        <button id="delete-server">
-          <NavLink to={`/servers/${id}/delete`}>
-            delete
-          </NavLink>
-        </button>
-      </div> */}
-
         <UserBar />
 
         <div className="categories">
           <div>
-            {/* {channels?.map((channel) => (
-          <li className="channel">
-            {`${channel.title}`}
-            </li>))}
-            </div> */}
             {categories.map((category) => (
               <div key={category.id} id="category" className="channel">
                 {`${category.title.toUpperCase()}`}
@@ -177,7 +155,6 @@ const ServerPage = () => {
         <div className="sqr">
         </div>
         <div className="channel-name">
-          {/* <img className="hash" height="24" width="24"></img> */}
           <span className="channel-text"># channel</span>
         </div>
         <div className="members-div">

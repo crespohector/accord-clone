@@ -69,7 +69,7 @@ const SignUpForm = () => {
         {errors.length > 0 &&
           <div>
             {errors.map((error, idx) => (
-              <h5  className="errors" key={idx}>{error}</h5>
+              <h5 className="errors" key={idx}>{error}</h5>
             ))}
           </div>
         }

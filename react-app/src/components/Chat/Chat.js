@@ -17,8 +17,6 @@ const Chat = () => {
     const dispatch = useDispatch();
     let chats = useSelector(state => state.chats)
     const { channelId } = useParams();
-    console.log("THIS IS THE CHANNEL ID PARAMS", channelId)
-    console.log("THIS IS THE CHATS COMPONENT", chats)
 
   //Auto scroll feature
     const divRef = useRef(null);
@@ -42,7 +40,6 @@ const Chat = () => {
         socket.on("chat", (chat) => {
             setMessages(messages => [...messages, chat])
         })
-        // console.log("first milestone")
 
         return (() => {
             socket.disconnect()

@@ -1,6 +1,7 @@
 /* TODO Add site wide styles */
 * {
     font-family: Helvetica Neue ,Helvetica ,Arial ,sans-serif;
+    box-sizing: border-box;
 }
 
 /* html { */
@@ -14,4 +15,24 @@ main {
 .errors {
     color: red;
     text-align: center;
-    margin: 10px 0px }
+    margin: 10px 0px;
+}
+
+/* utility classe to position the modal in the center */
+.modal {
+    margin: auto;
+    margin-top: 50vh;
+    transform: translateY(-50%);
+    background-color: white;
+    border-radius: 5px;
+}
+
+.form {
+    padding: 0px 20px 20px 20px;
+}
+
+.form-input {
+    width: 100%;
+    font-size: 1em;
+    padding: 5px 2px;
+}

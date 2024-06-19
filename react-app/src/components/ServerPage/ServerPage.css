@@ -30,8 +30,6 @@
 .name {
     display: flex;
     align-items: center;
-    /* padding-left: 10px; */
-    /* padding-top: 15px; */
     background-color: #2b3352;
     grid-area: name;
     color: #dcddde;
@@ -43,30 +41,28 @@
     color: #dcddde;
     background-color: #2e3236;
     padding-left: 5px;
+    justify-content: space-around;
 }
 
 .name:hover {
     background-color: #34373C;
 }
 
-#delete-server {
+.server-btn {
     background-color: #36393F;
     border: none;
     border: 1px solid black;
     border-radius: 5px;
-    position: absolute;
-    left: 180px;
     transition: background-color .2s;
     cursor: pointer;
-
 }
 
-#delete-server a {
+.server-btn a {
     text-decoration: none;
     color: #BBBABD;
 }
 
-#delete-server:hover {
+.server-btn:hover {
     background-color: #444850;
 }
 
@@ -263,18 +259,6 @@ li.channel {
 
  .edit-label {
      font-size: 1.4em;
- }
-
- .form_input {
-    width: 100%;
-    color: black;
-    border: none;
-    height: 35px;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 14px;
-    text-align: center;
-    margin: 5px auto;
  }
 
  #edit-form_button {
