@@ -15,6 +15,7 @@ function Discover() {
    const [serverId, setServerId] = useState(null)
    const user = useSelector(state => state.session.user);
    const servers = Object.values(useSelector(state => state.servers.allServers));
+   const userservers = useSelector(state => state.servers.userServers)
 
    useEffect(() => {
       dispatch(getServers())
@@ -48,17 +49,17 @@ function Discover() {
                            <img src={`data:image/jpeg;base64,${server?.img_url}`}></img>
                         </div>
                         <div className="server__container--title">{server.name}</div>
-                        {user.id !== server.owner_id ? (
-                           <button type="submit"
-                              onClick={() => setServerId(server.id)}
-                              className="server__container--button">
-                              Join
-                           </button>
-                        ) : (
+                        {userservers[server?.id] ? (
                            <button type="button"
                               className="server__container--button"
                               disabled>
                               Already joined
+                           </button>
+                        ) : (
+                           <button type="submit"
+                              onClick={() => setServerId(server.id)}
+                              className="server__container--button">
+                              Join
                            </button>
                         )
                         }
