@@ -180,15 +180,12 @@ const ServerPage = () => {
                   channel.category_id === category.id ? (
                     <NavLink key={channel.id} to={`/servers/${server.id}/channel/${channel.id}`}>
                       <li className="channel">
-                        {" "}
                         {`${channel.title}`}
-                        <button
-                          type="button"
-                          onClick={() => handleOpen(channel)}
-                          className="edit-channel"
-                        >
-                          ⚙
-                        </button>
+                        {user.id === server?.owner_id && (
+                          <button type="button" onClick={() => handleOpen(channel)} className="edit-channel">
+                            ⚙
+                          </button>
+                        )}
                       </li>
                     </NavLink>
                   ) : null
