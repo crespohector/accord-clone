@@ -47,6 +47,14 @@ export const getChannelsCategory = (category_id) => async (dispatch) => {
 
 //POST a new channel with server id and category id
 export const addChannel = (title, server_id, category_id ) => async (dispatch) => {
+
+    /*
+        Fetch reqs
+            - need to create a new category
+                - OR reference a selected category
+            - If no category is selected then reference the default first category
+    */
+
     const res = await fetch('/api/channels/', {
         method: "POST",
         headers: {
@@ -59,7 +67,7 @@ export const addChannel = (title, server_id, category_id ) => async (dispatch) =
         }),
     })
     const data = await res.json();
-    // dispatch(add_channel(data));
+    dispatch(add_channel(data));
     return ;
 }
 
@@ -91,11 +99,13 @@ export const deleteChannel = (id) => async (dispatch) => {
 
 const channelReducer = (state={}, action) => {
 
-    const newState = {...state};
+    let newState = {...state};
 
     switch (action.type) {
 
         case GET_CHANNEL:
+            // To avoid accumulating channels from different servers, empty out the newstate.
+            newState = {};
             action.payload["channels"].forEach(channel => {
                 newState[channel.id] = channel;
             });

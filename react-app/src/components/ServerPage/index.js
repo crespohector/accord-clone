@@ -18,8 +18,10 @@ const ServerPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [open, setOpen] = useState(false);
+  const [showCreateChannel, setShowCreateChannel] = useState(false);
   const [channel, setChannel] = useState({});
   const [channelTitle, setChannelTitle] = useState('');
+  const [category, setCategory] = useState('');
   const server = useSelector(state => state.servers?.currentServer)
   const channels = useSelector((state) => {
     return Object.values(state.channel);
@@ -62,8 +64,9 @@ const ServerPage = () => {
     setOpen(false)
   }
 
-  const handleOpen = (channel) => {
+  const handleOpen = (channel, setChannelState = false) => {
     setChannel(channel)
+    setShowCreateChannel(setChannelState);
     setOpen(true);
   };
 
@@ -85,36 +88,80 @@ const ServerPage = () => {
       })
   }
 
+  // handle creating new channel
+  const createChannel = (e) => {
+    e.preventDefault();
+    // on submit, dispatch create channel thunk action
+
+    // after succession, we should dynamically see the new channel being rendered.
+
+    // close modal
+    setOpen(false)
+  }
+
   return (
     <div className="server-page">
-      <Modal
-        open={open}
-        onClose={handleClose}
-      >
-        <div id="modal_channel">
-          <h1>Edit/Delete Channel</h1>
-          <form className="form">
-            <label htmlFor="channel-name" className="edit-label">
-              Edit Channel
-            </label>
-            <input
-              type="text"
-              name="channel_name"
-              className="form-input"
-              value={channelTitle}
-              onChange={(e) => setChannelTitle(e.target.value)}
-              required
-            ></input>
-            <button
-              type="submit"
-              id="edit-form_button"
-              onClick={onClickEditChannel}
-            >
-              Edit Channel
-            </button>
-            <button type="button" onClick={onClickDeleteChannel} className="delete-btn_channel">Delete Channel</button>
-          </form>
-        </div>
+      <Modal open={open} onClose={handleClose}>
+        {showCreateChannel ? (
+          <div id="modal_channel">
+            <h1>Create Channel</h1>
+            <form className="form" onSubmit={createChannel}>
+              <label htmlFor="channel-name" className="edit-label">
+                Channel Name
+              </label>
+              <input
+                type="text"
+                name="channel_name"
+                className="form-input"
+                value={channelTitle}
+                onChange={(e) => setChannelTitle(e.target.value)}
+                required
+                maxLength={15}
+              ></input>
+              <label className="edit-label">
+                Select Which Category:
+              </label>
+
+              <select onChange={(e) => console.log(e.target.value)}>
+                {categories.map((cat, idx) => (
+                  <option key={idx}>
+                    {cat.title}
+                  </option>
+                ))}
+              </select>
+
+              <button type="submit" id="edit-form_button">
+                Submit
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div id="modal_channel">
+            <h1>Edit/Delete Channel</h1>
+            <form className="form">
+              <label htmlFor="channel-name" className="edit-label">
+                Edit Channel
+              </label>
+              <input
+                type="text"
+                name="channel_name"
+                className="form-input"
+                value={channelTitle}
+                onChange={(e) => setChannelTitle(e.target.value)}
+                required
+                maxLength={15}
+              ></input>
+              <button
+                type="submit"
+                id="edit-form_button"
+                onClick={onClickEditChannel}
+              >
+                Edit Channel
+              </button>
+              <button type="button" onClick={onClickDeleteChannel} className="delete-btn_channel">Delete Channel</button>
+            </form>
+          </div>
+        )}
       </Modal>
 
       <div className="name">
@@ -172,7 +219,9 @@ const ServerPage = () => {
       </div>
       <div className="channel-name">
         <span className="channel-text"># channel</span>
-        {isOwner ? null : (
+        {isOwner ? (
+          <button className="create-channel-btn" onClick={() => handleOpen(channel, true)}>Create Channel</button>
+        ) : (
           <button className="leave-server-btn" onClick={(e) => leaveServer(e)}>Leave Server</button>
         )}
       </div>

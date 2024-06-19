@@ -18,7 +18,7 @@ const Chat = () => {
     let chats = useSelector(state => state.chats)
     const { channelId } = useParams();
 
-  //Auto scroll feature
+    //Auto scroll feature
     const divRef = useRef(null);
 
     useEffect(() => {
@@ -26,11 +26,10 @@ const Chat = () => {
         }
         divRef.current.scrollIntoView({ behavior: 'smooth' });
     });
-  //
 
     useEffect(() => {
-            dispatch(chatForChannel(channelId))
-            setShow(true)
+        dispatch(chatForChannel(channelId))
+        setShow(true)
     }, [dispatch, channelId])
 
     useEffect(() => {
@@ -124,7 +123,7 @@ const Chat = () => {
                         </div>
                     </div>
                 ))}
-            <div ref={divRef} />
+                <div ref={divRef} />
             </div>
             <form id="top_level_chat" method="POST" onSubmit={sendChat}>
                 <input
