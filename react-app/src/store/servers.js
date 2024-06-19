@@ -6,6 +6,7 @@ const DELETE_SERVER = "servers/DELETE_SERVER"
 const LOAD_CURRENT_SERVER = "servers/LOAD_CURRENT_SERVER"
 const LOAD_USER_SERVERS = "servers/LOAD_USER_SERVERS"
 const UPDATE_SERVER = 'servers/UPDATE_SERVER';
+const Add_MEMBER_TO_USER_SERVER = "servers/Add_MEMBER_TO_USER_SERVER";
 
 const loadCurrentServer = (server) => ({
   type: LOAD_CURRENT_SERVER,
@@ -20,6 +21,11 @@ const load = (servers) => ({
 const loadUserServers = (userServers) => ({
   type: LOAD_USER_SERVERS,
   userServers
+})
+
+const addUserMemberToServer = (server) => ({
+  type: Add_MEMBER_TO_USER_SERVER,
+  server
 })
 
 const add_server = (server) => ({
@@ -115,6 +121,17 @@ export const deleteServer = (id) => async (dispatch) => {
   return;
 }
 
+// POST - add user member to the server
+export const addMemberToServer = (id) => async (dispatch) => {
+  const res = await fetch(`/api/usersservers/server/${id}`, {
+    method: "POST",
+  })
+  const data = await res.json();
+  // how to handle the redux state when adding a member to a server
+  dispatch(addUserMemberToServer(data));
+  return;
+}
+
 const initialState = {
   allServers: {},
   userServers: {},
@@ -140,8 +157,14 @@ const serversReducer = (state = initialState, action) => {
       return newState;
     }
 
+    case Add_MEMBER_TO_USER_SERVER: {
+      // add server to the userservers state
+      newState.userServers[action.server.id] = action.server;
+      return newState;
+    }
+
     case LOAD_USER_SERVERS: {
-      // normalize user servers list
+      // normalize userservers list
       action.userServers.user_server.forEach(server => {
         newState.userServers[server.id] = server;
       })

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import {getServers, joinServer} from "../../store/discover";
-import { getServers } from "../../store/servers";
+import { getServers, addMemberToServer } from "../../store/servers";
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from "react-router-dom";
 import UserBar from "../UserBar"
@@ -22,9 +21,14 @@ function Discover() {
    }, [dispatch])
 
    const joinServerSubmit = (e) => {
-      // TODO - should be able to join a server
       e.preventDefault();
-      history.push(`/servers/${serverId}`)
+      dispatch(addMemberToServer(serverId))
+      .then((res) => {
+         history.push(`/servers/${serverId}`)
+      })
+      .catch(error => {
+         console.log('Error: ', error)
+      })
    }
 
    return (
