@@ -26,5 +26,7 @@ class Server(db.Model):
         return {
         "id": self.id,
         "name": self.server_name,
+        "created_on": self.created_on,
+        "owner_id": self.owner_id,
         "img_url": base64.b64encode(self.img_url).decode('utf-8')
         }

@@ -7,13 +7,12 @@ user_server_routes = Blueprint("userserver", __name__)
 @user_server_routes.route("/", methods=["GET"])
 def getServersByUser():
     '''
-    GET all servers from a specific user
+    GET all servers from a specific user that the user owns and is a member of
     '''
     id = current_user.get_id()
     if id:
         user = User.query.get(current_user.get_id())
         user_servers = user.servers
-        # serialize server instances to an object
         servers = [userserver.to_dict() for userserver in user_servers]
         return {"user_server": servers}
     else:

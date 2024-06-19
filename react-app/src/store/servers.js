@@ -97,7 +97,6 @@ export const updateServer = (serverId, file, serverName) => async (dispatch) => 
   formData.append("image", file);
   formData.append("name", serverName);
 
-  console.log('image: ', formData.get("image"))
   const res = await fetch(`/api/servers/${serverId}/`, {
     method: "PUT",
     body: formData

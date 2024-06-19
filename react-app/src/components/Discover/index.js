@@ -21,6 +21,7 @@ function Discover() {
    }, [dispatch])
 
    const joinServerSubmit = (e) => {
+      // TODO - should be able to join a server
       e.preventDefault();
       history.push(`/servers/${serverId}`)
    }
@@ -47,7 +48,20 @@ function Discover() {
                            <img src={`data:image/jpeg;base64,${server?.img_url}`}></img>
                         </div>
                         <div className="server__container--title">{server.name}</div>
-                        <button type="submit" onClick={() => setServerId(server.id)} className="server__container--button">Join</button>
+                        {user.id !== server.owner_id ? (
+                           <button type="submit"
+                              onClick={() => setServerId(server.id)}
+                              className="server__container--button">
+                              Join
+                           </button>
+                        ) : (
+                           <button type="button"
+                              className="server__container--button"
+                              disabled>
+                              Already joined
+                           </button>
+                        )
+                        }
                      </div>
                   </form>
                ))}

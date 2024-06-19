@@ -1,7 +1,11 @@
-from app.models import db, Server
+from app.models import db, Server, User
 import os
+import random
 
 def seed_serv():
+
+    # make a query to get the first 6 users
+    users = User.query.limit(6).all()
 
     seeds_dir = os.path.dirname(__file__)
 
@@ -16,9 +20,12 @@ def seed_serv():
 
         with open(file_path_to_image, 'rb') as f:
             img_data = f.read()
+            rand_int = random.randint(0,5)
             server = Server(server_name=file_name,
                             img_url=img_data,
-                            owner_id=1)
+                            owner_id=rand_int + 1)
+            # append server instance to the user's servers attribute
+            users[rand_int].servers.append(server)
             db.session.add(server)
 
     db.session.commit()
