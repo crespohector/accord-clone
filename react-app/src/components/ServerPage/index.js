@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getChannelsServer, editChannel, deleteChannel } from "../../store/channel";
 import { allCategories } from "../../store/category";
 import { allUsersByServerId } from "../../store/user_server";
-import { getServer, allServersByUserId } from "../../store/servers";
+import { getServer, removeMemberFromServer } from "../../store/servers";
 import UserBar from '../UserBar'
 import Chat from '../Chat/Chat'
 import About from '../auth/About';
@@ -14,6 +14,7 @@ import Modal from "@material-ui/core/Modal";
 import './ServerPage.css';
 
 const ServerPage = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { id } = useParams();
   const [open, setOpen] = useState(false);
@@ -72,6 +73,22 @@ const ServerPage = () => {
     const handleClose = () => {
       setOpen(false);
     };
+
+    // handle leave server button
+    const leaveServer = (e) => {
+      // dispatch leave server thunk action
+      e.preventDefault();
+      dispatch(removeMemberFromServer(server?.id))
+        .then(res => {
+          history.push(`/`)
+        })
+        .catch(err => {
+          console.log('error: ', err);
+        })
+      // after submission, redirect user to the discover page
+    }
+
+
 
     return (
       <div className="server-page">
@@ -156,6 +173,7 @@ const ServerPage = () => {
         </div>
         <div className="channel-name">
           <span className="channel-text"># channel</span>
+          <button className="leave-server-btn" onClick={(e) => leaveServer(e)}>Leave Server</button>
         </div>
         <div className="members-div">
           {usersByServer?.map((user) => (

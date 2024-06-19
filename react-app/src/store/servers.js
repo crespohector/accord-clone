@@ -7,6 +7,7 @@ const LOAD_CURRENT_SERVER = "servers/LOAD_CURRENT_SERVER"
 const LOAD_USER_SERVERS = "servers/LOAD_USER_SERVERS"
 const UPDATE_SERVER = 'servers/UPDATE_SERVER';
 const Add_MEMBER_TO_USER_SERVER = "servers/Add_MEMBER_TO_USER_SERVER";
+const REMOVE_MEMBER_FROM_USER_SERVER = "servers/REMOVE_MEMBER_FROM_USER_SERVER";
 
 const loadCurrentServer = (server) => ({
   type: LOAD_CURRENT_SERVER,
@@ -25,6 +26,11 @@ const loadUserServers = (userServers) => ({
 
 const addUserMemberToServer = (server) => ({
   type: Add_MEMBER_TO_USER_SERVER,
+  server
+})
+
+const removeUserMemberFromServer = (server) => ({
+  type: REMOVE_MEMBER_FROM_USER_SERVER,
   server
 })
 
@@ -127,8 +133,17 @@ export const addMemberToServer = (id) => async (dispatch) => {
     method: "POST",
   })
   const data = await res.json();
-  // how to handle the redux state when adding a member to a server
   dispatch(addUserMemberToServer(data));
+  return;
+}
+
+// DELETE - remove user member from a server
+export const removeMemberFromServer = (id) => async (dispatch) => {
+  const res = await fetch(`/api/usersservers/server/${id}`, {
+    method: "DELETE",
+  })
+  const data = await res.json();
+  dispatch(removeUserMemberFromServer(data));
   return;
 }
 
@@ -160,6 +175,14 @@ const serversReducer = (state = initialState, action) => {
     case Add_MEMBER_TO_USER_SERVER: {
       // add server to the userservers state
       newState.userServers[action.server.id] = action.server;
+      return newState;
+    }
+
+    case REMOVE_MEMBER_FROM_USER_SERVER: {
+      // remove server from the userservers state
+      delete newState.userServers[action.server.id]
+      // set current back to empty object
+      newState.currentServer = {};
       return newState;
     }
 
