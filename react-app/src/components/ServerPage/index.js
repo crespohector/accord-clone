@@ -124,7 +124,7 @@ const ServerPage = () => {
         ) : (
           <div id="modal_channel">
             <h1>Edit/Delete Channel</h1>
-            <form className="form">
+            <form className="form" onSubmit={onClickEditChannel}>
               <label htmlFor="channel-name" className="edit-label">
                 Edit Channel
               </label>
@@ -137,14 +137,12 @@ const ServerPage = () => {
                 required
                 maxLength={14}
               ></input>
-              <button
-                type="submit"
-                id="edit-form_button"
-                onClick={onClickEditChannel}
-              >
+              <button type="submit" id="edit-form_button">
                 Edit Channel
               </button>
-              <button type="button" onClick={onClickDeleteChannel} className="delete-btn_channel">Delete Channel</button>
+              <button type="button" onClick={onClickDeleteChannel} className="delete-btn_channel">
+                Delete Channel
+              </button>
             </form>
           </div>
         )}
