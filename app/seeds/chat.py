@@ -6,10 +6,10 @@ faker = Faker()
 # Adds a demo user, you can add other users here if you want
 def seed_chat():
 
-    for i in range(0, 40):
+    for i in range(0, 100):
         another = Chat(content=faker.text(),
-                    channel_id=random.randint(1, 20),
-                    owner_id=random.randint(1, 10)
+                    channel_id=random.randint(1, 37),
+                    owner_id=random.randint(1, 16)
                     )
         db.session.add(another)
 
