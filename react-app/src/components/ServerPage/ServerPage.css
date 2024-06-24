@@ -111,19 +111,12 @@
 
 .channel {
     color: #8e9296;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 15px;
     text-decoration: none;
-
 }
 
 .text-channels a{
     text-decoration: none;
-}
-
-li.channel {
-    font-size: 14px;
-    width: 50px;
 }
 
 .text-channels {
@@ -131,17 +124,20 @@ li.channel {
     padding-bottom: 5px;
 }
 
+.channel .text-channels li {
+    color: #8e9296;
+    font-size: 14px;
+    list-style: none;
+    margin: 7px 0px;
+}
+
+.channel .text-channels li:hover {
+    color: #b0b5b9;
+}
+
 .li.channel:hover {
     background-color: #6f7580;
     color: white;
-}
-
-#channel {
-    /* list-style-image: url("../../images/1247106.png"); */
-    color: #8e9296;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 5px;
 }
 
 #channel:hover {
