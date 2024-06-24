@@ -19,7 +19,7 @@ const ServerPage = () => {
   const { id } = useParams();
   const [open, setOpen] = useState(false);
   const [showCreateChannel, setShowCreateChannel] = useState(false);
-  const [channel, setChannel] = useState({});
+  const [channel, setChannel] = useState("");
   const [channelTitle, setChannelTitle] = useState('');
   const server = useSelector(state => state.servers?.currentServer)
   const channels = useSelector((state) => {
@@ -179,7 +179,7 @@ const ServerPage = () => {
                 {channels?.map((channel) =>
                   channel.category_id === category.id ? (
                     <NavLink key={channel.id} to={`/servers/${server.id}/channel/${channel.id}`}>
-                      <li onClick={(e) => setChannel(channel)}>
+                      <li onClick={() => setChannel(channel)}>
                         {`${channel.title}`}
                         {user.id === server?.owner_id && (
                           <button type="button" onClick={() => handleOpen(channel)} className="edit-channel">
@@ -201,7 +201,7 @@ const ServerPage = () => {
       <div className="sqr">
       </div>
       <div className="channel-name">
-        <span className="channel-text">{channel?.title || channels[0]?.title}</span>
+        <span className="channel-text">{channel?.server_id !== server.id ? channels[0]?.title : channel?.title}</span>
         {isOwner ? (
           <button className="create-channel-btn" onClick={() => handleOpen(channel, true)}>Create Channel</button>
         ) : (
