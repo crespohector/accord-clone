@@ -20,7 +20,6 @@ export const chatForChannel = (channel_id) => async (dispatch) => {
     });
     if(res.ok) {
         const data = await res.json();
-        // const other = Object.values(data);
         dispatch(showChat(data))
     }
 }

@@ -111,19 +111,12 @@
 
 .channel {
     color: #8e9296;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 15px;
     text-decoration: none;
-
 }
 
 .text-channels a{
     text-decoration: none;
-}
-
-li.channel {
-    font-size: 14px;
-    width: 50px;
 }
 
 .text-channels {
@@ -131,17 +124,20 @@ li.channel {
     padding-bottom: 5px;
 }
 
+.channel .text-channels li {
+    color: #8e9296;
+    font-size: 14px;
+    list-style: none;
+    margin: 7px 0px;
+}
+
+.channel .text-channels li:hover {
+    color: #b0b5b9;
+}
+
 .li.channel:hover {
     background-color: #6f7580;
     color: white;
-}
-
-#channel {
-    /* list-style-image: url("../../images/1247106.png"); */
-    color: #8e9296;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 5px;
 }
 
 #channel:hover {
@@ -162,6 +158,20 @@ li.channel {
     padding-left: 20px;
     padding-top: 17px;
     align-items: baseline;
+}
+
+.create-channel-btn {
+    margin-right: 10px;
+    background-color: #7289da;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    color: #f9fbfe;
+    padding: 3px 6px;
+}
+
+.create-channel-btn:active {
+    transform: scale(.98);
 }
 
 .leave-server-btn {
@@ -259,28 +269,34 @@ li.channel {
  /* Edit/Delete modal */
  #modal_channel {
     width: 40%;
-    height: 45%;
-    background-color: rgb(226, 224, 224);
+    background-color: #37393f;
     margin: auto;
     margin-top: 21vh;
     border-radius: 5px;
     outline: none;
-    padding: 2px;
+    padding: 10px 0px 20px 0px;
     text-align: center;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    color: white;
+ }
+
+ #modal_channel input:focus {
+    outline: none;
  }
 
  .edit-label {
      font-size: 1.4em;
+     margin: 12px 0px;
  }
 
  #edit-form_button {
     width: 100%;
     margin-top: 20px;
-    background-color: #747F8D;
+    background-color: #5965f2;
     color: white;
     outline: none;
     border: none;
@@ -291,13 +307,13 @@ li.channel {
  }
 
  #edit-form_button:hover {
-    background-color: #68727F;
+    background-color: #535fe2;
  }
 
  .delete-btn_channel {
     width: 100%;
     margin-top: 10px;
-    background-color: #6289bd;
+    background-color: #e84645;
     color: white;
     outline: none;
     border: none;
@@ -308,5 +324,5 @@ li.channel {
  }
 
 .delete-btn_channel:hover {
-    background-color: #577aa8;
+    background-color: #d63f3f;
 }

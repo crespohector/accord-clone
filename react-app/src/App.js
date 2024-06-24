@@ -64,7 +64,7 @@ function App() {
         <ProtectedRoute path="/servers/:id/update" exact={true}>
           <Update />
         </ProtectedRoute>
-        <ProtectedRoute path="/servers/:serverId/channel/:channelId" exact={true}>
+        <ProtectedRoute path="/servers/:id/channel/:channelId" exact={true}>
           <ServerPage />
         </ProtectedRoute>
       </Switch>

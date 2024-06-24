@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { NavLink, useParams, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getChannelsServer, editChannel, deleteChannel } from "../../store/channel";
+import { getChannelsServer, editChannel, deleteChannel, addChannel } from "../../store/channel";
 import { allCategories } from "../../store/category";
 import { allUsersByServerId } from "../../store/user_server";
 import { getServer, removeMemberFromServer } from "../../store/servers";
@@ -18,7 +18,8 @@ const ServerPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [open, setOpen] = useState(false);
-  const [channel, setChannel] = useState({});
+  const [showCreateChannel, setShowCreateChannel] = useState(false);
+  const [channel, setChannel] = useState("");
   const [channelTitle, setChannelTitle] = useState('');
   const server = useSelector(state => state.servers?.currentServer)
   const channels = useSelector((state) => {
@@ -62,8 +63,9 @@ const ServerPage = () => {
     setOpen(false)
   }
 
-  const handleOpen = (channel) => {
+  const handleOpen = (channel, setChannelState = false) => {
     setChannel(channel)
+    setShowCreateChannel(setChannelState);
     setOpen(true);
   };
 
@@ -85,36 +87,65 @@ const ServerPage = () => {
       })
   }
 
+  // handle creating new channel
+  const createChannel = (e) => {
+    e.preventDefault();
+    // on submit, dispatch create channel thunk action
+    dispatch(addChannel(channelTitle, server?.id));
+    // close modal
+    setOpen(false);
+    setChannelTitle("");
+  }
+
   return (
     <div className="server-page">
-      <Modal
-        open={open}
-        onClose={handleClose}
-      >
-        <div id="modal_channel">
-          <h1>Edit/Delete Channel</h1>
-          <form className="form">
-            <label htmlFor="channel-name" className="edit-label">
-              Edit Channel
-            </label>
-            <input
-              type="text"
-              name="channel_name"
-              className="form-input"
-              value={channelTitle}
-              onChange={(e) => setChannelTitle(e.target.value)}
-              required
-            ></input>
-            <button
-              type="submit"
-              id="edit-form_button"
-              onClick={onClickEditChannel}
-            >
-              Edit Channel
-            </button>
-            <button type="button" onClick={onClickDeleteChannel} className="delete-btn_channel">Delete Channel</button>
-          </form>
-        </div>
+      <Modal open={open} onClose={handleClose}>
+        {showCreateChannel ? (
+          <div id="modal_channel">
+            <h1>Create Channel</h1>
+            <form className="form" onSubmit={createChannel}>
+              <label htmlFor="channel-name" className="edit-label">
+                Channel Name
+              </label>
+              <input
+                type="text"
+                name="channel_name"
+                className="form-input"
+                value={channelTitle}
+                onChange={(e) => setChannelTitle(e.target.value)}
+                required
+                maxLength={14}
+              ></input>
+              <button type="submit" id="edit-form_button">
+                Submit
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div id="modal_channel">
+            <h1>Edit/Delete Channel</h1>
+            <form className="form" onSubmit={onClickEditChannel}>
+              <label htmlFor="channel-name" className="edit-label">
+                Edit Channel
+              </label>
+              <input
+                type="text"
+                name="channel_name"
+                className="form-input"
+                value={channelTitle}
+                onChange={(e) => setChannelTitle(e.target.value)}
+                required
+                maxLength={14}
+              ></input>
+              <button type="submit" id="edit-form_button">
+                Edit Channel
+              </button>
+              <button type="button" onClick={onClickDeleteChannel} className="delete-btn_channel">
+                Delete Channel
+              </button>
+            </form>
+          </div>
+        )}
       </Modal>
 
       <div className="name">
@@ -146,16 +177,13 @@ const ServerPage = () => {
                 {channels?.map((channel) =>
                   channel.category_id === category.id ? (
                     <NavLink key={channel.id} to={`/servers/${server.id}/channel/${channel.id}`}>
-                      <li className="channel">
-                        {" "}
+                      <li onClick={() => setChannel(channel)}>
                         {`${channel.title}`}
-                        <button
-                          type="button"
-                          onClick={() => handleOpen(channel)}
-                          className="edit-channel"
-                        >
-                          ⚙
-                        </button>
+                        {user.id === server?.owner_id && (
+                          <button type="button" onClick={() => handleOpen(channel)} className="edit-channel">
+                            ⚙
+                          </button>
+                        )}
                       </li>
                     </NavLink>
                   ) : null
@@ -171,8 +199,10 @@ const ServerPage = () => {
       <div className="sqr">
       </div>
       <div className="channel-name">
-        <span className="channel-text"># channel</span>
-        {isOwner ? null : (
+        <span className="channel-text">{channel?.server_id !== server.id ? channels[0]?.title : channel?.title}</span>
+        {isOwner ? (
+          <button className="create-channel-btn" onClick={() => handleOpen(channel, true)}>Create Channel</button>
+        ) : (
           <button className="leave-server-btn" onClick={(e) => leaveServer(e)}>Leave Server</button>
         )}
       </div>
