@@ -73,9 +73,11 @@ const Chat = () => {
         if (chats)
             return show ? chats.map((msg) => {
 
+                // should show the correct user, not the demo's username
+
                 return (
                     <div id="previousMessages" key={msg.id}>
-                        <div id="Chat_user">{user.username}</div>
+                        <div id="Chat_user">{msg.user.username}</div>
                         <div id="Chat_message">{msg.content}</div>
                     </div>
                 );
