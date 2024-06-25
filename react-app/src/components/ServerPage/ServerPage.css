@@ -13,18 +13,21 @@
 .server-page {
     display: grid;
     position: fixed;
-    grid-template-columns: 52px 80px 120px 1fr 1fr 1fr 1fr 1fr 1fr 130px 125px;
+    width: 100%;
+    grid-template-columns: 52px 80px 120px 1fr 1fr 1fr 1fr 1fr 1fr 130px 150px;
+    /* grid-template-columns: 1.25fr 1.25fr 2fr 2fr 2fr 2fr 2fr 2fr 1fr 2fr 2fr; */
     /* sizing for navbar may be off due to grid size being larger
     than the chat and server name bar */
-    /* grid-template-rows: 50px 400px 400px 90px ; */
-    grid-template-rows: 50px 400px 400px 400px 300px;
+    /* grid-template-rows: 50px 400px 400px 400px 300px; */
+    grid-template-rows: 6vh 1fr 1fr 1fr;
     grid-template-areas:
     "name name name channel-name channel-name channel-name channel-name channel-name channel-name options options"
     "channels channels channels chat chat chat chat chat chat users users"
     "channels channels channels chat chat chat chat chat chat users users"
-    "channels channels channels chat chat chat chat chat chat users users"
-    "channels channels channels msg msg msg msg msg msg users users";
+    "channels channels channels chat chat chat chat chat chat users users";
+    /* "channels channels channels msg msg msg msg msg msg users users"; */
     height: 100vh;
+
 }
 
 .name {
@@ -71,7 +74,7 @@
     grid-area: channels;
     height: 100%;
     padding-top: 20px;
-    overflow-y: hidden scroll;
+    overflow-y: auto;
     /* position: fixed;
     left: 72px;
     top: 50px;
@@ -96,17 +99,9 @@
 .chat-div {
     background-color: #32353a;
     grid-area: chat;
-    width: 100%;
-    height: 850px;
     color: #dcddde;
     overflow-y: auto;
-}
-.chat-div {
-    overflow-y: scroll;
     position: relative;
-    overflow-x: hidden;
-    /* left: 32px;
-    top: 50px; */
 }
 
 .channel {
@@ -207,23 +202,7 @@
 .chat-div::-webkit-scrollbar {
     background-color: #32353a;
 }
-/* #top_level_chat {
-    position: relative;
-} */
 
-#top_level {
-    height: 90%;
-    grid-area: chat;
-    width: 1500px;
-    overflow-wrap: normal;
-}
-
-#top_level_chat {
-    position: fixed;
-    bottom: 15px;
-    left: 3;
-    overflow-y: hidden;
-}
 .sqr {
     grid-area: chat;
     background-color: #36393F;
@@ -231,7 +210,7 @@
 
 .members-div {
     grid-area: users;
-    background-color: #32353a;
+    background-color: #2F3136;
     height: 100%;
 }
 

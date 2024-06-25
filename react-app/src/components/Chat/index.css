@@ -1,12 +1,18 @@
-#top_level {
-    padding:15px;
-    width: 100%;
-    /* background-color:#36393F; */
-    border-radius: 3px;
-    display:inline-block;
-    height: 800px;
-    padding-bottom:20px;
+#previousMessages {
+    margin: 15px 0px 4px 6px;
+}
 
+#Chat_user {
+    font-weight: bold;
+    color: white;
+}
+
+#Chat_message {
+    display:inline-block;
+    color: #e7e7e7;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+    margin-top: 5px;
 }
 
 /* #messageComponent {
@@ -18,10 +24,8 @@
 } */
 #messageComponent {
     /* border: 1px solid red; */
-    padding: 10px;
+    /* padding: 10px; */
 }
-
-
 
 /* #RecentMessage > div {
     padding-bottom: 15px;
@@ -33,22 +37,6 @@
     display: inline-block;
 }
 
-#Chat_user {
-    margin-left: 10px;
-    font-weight: bold;
-    padding-bottom: 5px;
-    color: white;
-}
-
-#Chat_message {
-    display:inline-block;
-    padding-bottom: 20px;
-    margin-left: 10px;
-    color: white;
-    opacity: .9;
-    font-size: 14px;
-}
-
 ::placeholder {
    color: #C7C8CA;
    opacity: .5;
@@ -58,24 +46,45 @@
     padding-bottom: 10px;
 }
 
-
-#bar {
-    margin-bottom: 5px;
+#chat-form {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
 }
 
-#top_level_chat input {
-    width: 1275px;
-    height: 22px;
+#chat-container {
     position: relative;
-    border-radius: 3px;
-    border: 1px solid #222428;
-    background-color: #707070;
-    outline: white;
-    caret-color: white;
+    width: 100%;
+    background-color: #626262;
+    height: 52px;
+}
+
+#chat-form #chat-container input {
+    width: 94%;
+    height: 100%;
     color: #C7C8CA;
     font-size: 16px;
-    padding-left: 10px;
-    transition: border .2s;
+    background-color: transparent;
+    outline: none;
+    border: none;
+ }
+
+ #chat-form #chat-container button {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    background-color: transparent;
+    color: #000000;
+    font-size: 24px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: color 0.15s ease-in;
+ }
+
+ #chat-form #chat-container button:hover {
+    color: #202020;
  }
 
  .dot {

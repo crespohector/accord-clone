@@ -69,20 +69,15 @@ const Chat = () => {
 
 
 
-    const place = () => {
+    const ShowChats = () => {
         if (chats)
             return show ? chats.map((msg) => {
-
-                // should show the correct user, not the demo's username
-
                 return (
                     <div id="previousMessages" key={msg.id}>
                         <div id="Chat_user">{msg.user.username}</div>
                         <div id="Chat_message">{msg.content}</div>
                     </div>
                 );
-
-
             }) : <div></div>
     }
 
@@ -101,11 +96,9 @@ const Chat = () => {
     //     await dispatch(chatForChannel(channel))
     //     setShow(true)
     // }
-    // console.log("Chats", chats)
 
     return (user && (
-        <div id="top_level" >
-
+        <>
             {/* <div id="channelTest">
                 <input
                     placeholder="Select Channel"
@@ -115,31 +108,40 @@ const Chat = () => {
                 <button onClick={messagesForChannel}> Channel {channel}</button>
             </div> */}
             <div >
-                {place()}
-                {messages.map((message, ind) => (
-                    <div key={ind} id="messageComponent">
-                        {/* <div id="RecentMessage">Most Recent Message From you</div> */}
-                        <div id="Chat_user" key={ind}>{`${message.user}`}</div>
-                        <div id="another">
-                            <div id="Chat_message" key={ind}>{` ${message.msg} `}</div>
-                        </div>
-                    </div>
-                ))}
+                <ShowChats/>
                 <div ref={divRef} />
             </div>
-            <form id="top_level_chat" method="POST" onSubmit={sendChat}>
-                <input
-                    id="bar"
-                    placeholder="Message"
-                    value={chatInput}
-                    onChange={updateChatInput}
-                />
-                {/* <button type="submit">Send</button> */}
+            <form id="chat-form" method="POST" onSubmit={sendChat}>
+                <div id="chat-container">
+                    <input
+                        type="text"
+                        placeholder="Message"
+                        value={chatInput}
+                        onChange={updateChatInput}
+                        required
+                        maxLength={500}
+                    />
+                    <button type="submit"><i className="far fa-paper-plane"></i></button>
+                </div>
             </form>
-        </div>
+        </>
     )
     )
 };
 
 
 export default Chat;
+
+/*
+
+ {messages.map((message, ind) => (
+                    <div key={ind} id="messageComponent">
+                        {// <div id="RecentMessage">Most Recent Message From you</div> }
+                        <div id="Chat_user" key={ind}>{`${message.user}`}</div>
+                        <div id="another">
+                            <div id="Chat_message" key={ind}>{` ${message.msg} `}</div>
+                        </div>
+                    </div>
+                ))}
+
+*/
