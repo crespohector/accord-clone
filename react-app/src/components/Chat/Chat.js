@@ -6,7 +6,7 @@ import { chatPost, chatForChannel } from "../../store/chats"
 import './index.css';
 let socket;
 
-const Chat = () => {
+const Chat = ({server}) => {
     const [chatInput, setChatInput] = useState("");
     const [messages, setMessages] = useState([]);
     const [channel, setChannel] = useState()
@@ -17,6 +17,8 @@ const Chat = () => {
     const dispatch = useDispatch();
     let chats = useSelector(state => state.chats)
     const { channelId } = useParams();
+
+    console.log('SERVER-----: ', server)
 
     //Auto scroll feature
     const divRef = useRef(null);
@@ -46,11 +48,6 @@ const Chat = () => {
 
     }, [chats])
 
-
-    const updateChatInput = (e) => {
-        setChatInput(e.target.value)
-    };
-
     // const updateChannel = (e) => {
     //     setChannel(e.target.value)
     // }
@@ -64,18 +61,23 @@ const Chat = () => {
         socket.emit("chat", { user: user.username, msg: chatInput });
         setChatInput("")
         setMessagePosted(true)
-        await dispatch(chatPost(channel, chatInput))
+        await dispatch(chatPost(channelId, chatInput))
     }
 
 
 
     const ShowChats = () => {
         if (chats)
-            return show ? chats.map((msg) => {
+            return show ? chats.map((chat) => {
                 return (
-                    <div id="previousMessages" key={msg.id}>
-                        <div id="Chat_user">{msg.user.username}</div>
-                        <div id="Chat_message">{msg.content}</div>
+                    <div id="previousMessages" key={chat.id}>
+                        <div id="Chat_user">
+                            {chat.user.username}
+                            {server.owner_id === chat.user.id && (
+                                <small id="admin-small-text">server admin</small>
+                            )}
+                        </div>
+                        <div id="Chat_message">{chat.content}</div>
                     </div>
                 );
             }) : <div></div>
@@ -108,7 +110,7 @@ const Chat = () => {
                 <button onClick={messagesForChannel}> Channel {channel}</button>
             </div> */}
             <div >
-                <ShowChats/>
+                <ShowChats />
                 <div ref={divRef} />
             </div>
             <form id="chat-form" method="POST" onSubmit={sendChat}>
@@ -117,11 +119,13 @@ const Chat = () => {
                         type="text"
                         placeholder="Message"
                         value={chatInput}
-                        onChange={updateChatInput}
+                        onChange={(e) => setChatInput(e.target.value)}
                         required
                         maxLength={500}
                     />
-                    <button type="submit"><i className="far fa-paper-plane"></i></button>
+                    <button type="submit">
+                        <i className="far fa-paper-plane"></i>
+                    </button>
                 </div>
             </form>
         </>

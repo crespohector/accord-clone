@@ -194,7 +194,7 @@ const ServerPage = () => {
         </div>
       </div>
       <div className="chat-div">
-        <Chat />
+        <Chat server={server} />
       </div>
       <div className="sqr">
       </div>

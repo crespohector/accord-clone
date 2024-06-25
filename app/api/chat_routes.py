@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, session, request
-from flask_login import login_required
+from flask_login import current_user
 from app.models import User, Chat, Channel, db
 from app.forms import ChatForm
 
@@ -21,17 +21,22 @@ def chat_channel(id):
 
 @chat_routes.route("/<int:id>", methods=['POST'])
 #For now, any user can post to the whole chat as a whole
-def chatPost(id):
+def chat_post(id):
     form = ChatForm()
+    user_id = current_user.id
     form['csrf_token'].data = request.cookies['csrf_token']
     form.data['channel_id'] = id
 
     if form.validate_on_submit():
         chat = Chat(
             content = form.data['content'],
-            channel_id = id
+            channel_id = id,
+            owner_id = user_id
         )
         db.session.add(chat)
         db.session.commit()
         return chat.to_dict()
-    return
+
+    return {"error": "unable to fulfill request"}, 400
+
+#create a delete route for chats
