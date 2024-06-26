@@ -13,6 +13,7 @@ import About from '../auth/About';
 import Modal from "@material-ui/core/Modal";
 
 import './ServerPage.css';
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 const ServerPage = () => {
   const history = useHistory();
@@ -33,6 +34,8 @@ const ServerPage = () => {
   const user = useSelector((state) => state.session.user)
 
   const isOwner = server?.owner_id === user?.id;
+
+  console.log('users: ', usersByServer)
 
   // const messagesEndRef = useRef(null)
 
@@ -107,6 +110,12 @@ const ServerPage = () => {
   // handle isLoaded and channel state
   const setChannelandIsLoaded = (channel) => {
     setChannel(channel)
+  }
+
+  // Redirect user to home page if user does not belong to the server
+  if (usersByServer) {
+    const doesNotBelongToServer = !(usersByServer.find((obj) => obj.id === user.id))
+    if (doesNotBelongToServer) return <Redirect to="/" />
   }
 
   return (
