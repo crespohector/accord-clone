@@ -12,9 +12,9 @@ const addChat = (content) => ({
     payload: content
 })
 
-const deleteChatMessage = (payload) => ({
+const removeChat = ({id}) => ({
     type: DELETE_CHAT,
-    payload
+    payload: id,
 })
 
 //thinking about doing the GET requests in the chat component
@@ -50,13 +50,13 @@ export const chatPost = (id, content) => async (dispatch) => {
 
 export const deleteChat = (id) => async (dispatch) => {
     const res = await fetch(`/api/chat/${id}`, {
-        method: 'DELETE',
+        method: 'DELETE'
     });
     const data = await res.json();
     if (data.errors) {
         return data;
     }
-    dispatch(deleteChatMessage(data))
+    dispatch(removeChat(data))
     return {};
 }
 
@@ -64,16 +64,16 @@ export default function chatReducer(state = [], action) {
     let newState;
     switch(action.type) {
         case SHOW_CHAT:
-            // console.log(action.payload)
             newState = action.payload.chats;
-            // console.log(newState)
             return newState;
         case ADD_CHAT:
             newState = [...state, action.payload];
             return newState;
         case DELETE_CHAT:
-            newState = [...state];
-            delete newState[action.payload.id];
+            // perform a for loop to find the chat instance to delete
+            newState = state.filter(obj => {
+                return obj.id !== action.payload;
+            })
             return newState;
 
         default:

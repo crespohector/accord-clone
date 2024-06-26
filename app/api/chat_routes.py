@@ -6,7 +6,7 @@ from app.forms import ChatForm
 chat_routes = Blueprint("chat", __name__)
 
 #Grabs all the chat messages from specific channel
-@chat_routes.route("/<int:id>")
+@chat_routes.route("/<int:id>", methods=["GET"])
 def chat_channel(id):
     chats = Chat.query.filter(Chat.channel_id == id).all()
     return {"chats": [chat.to_dict() for chat in chats]}
@@ -38,4 +38,5 @@ def delete_chat(id):
     chat = Chat.query.get(id)
     db.session.delete(chat)
     db.session.commit()
-    return chat.to_dict()
+    #query for a list of chat within a channel
+    return {"id": chat.id}

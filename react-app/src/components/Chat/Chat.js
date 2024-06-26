@@ -64,7 +64,10 @@ const Chat = ({ server, channels }) => {
         await dispatch(chatPost(channelId, chatInput))
     }
 
-
+    const handleDeleteChat = (e, {id}) => {
+        e.preventDefault();
+        dispatch(deleteChat(id));
+    }
 
     const ShowChats = () => {
             return chats?.map((chat) => {
@@ -76,7 +79,7 @@ const Chat = ({ server, channels }) => {
                                 <small id="admin-small-text">server admin</small>
                             )}
                             {chat.owner_id === user.id && (
-                                <button id="btn-delete-chat" type="button">delete</button>
+                                <button id="btn-delete-chat" type="button" onClick={(e) => handleDeleteChat(e, chat)}>delete</button>
                             )}
                         </div>
                         <div id="Chat_message">{chat.content}</div>
