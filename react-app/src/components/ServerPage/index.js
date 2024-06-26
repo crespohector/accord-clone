@@ -6,6 +6,7 @@ import { getChannelsServer, editChannel, deleteChannel, addChannel } from "../..
 import { allCategories } from "../../store/category";
 import { allUsersByServerId } from "../../store/user_server";
 import { getServer, removeMemberFromServer } from "../../store/servers";
+import { chatForChannel } from "../../store/chats"
 import UserBar from '../UserBar'
 import Chat from '../Chat/Chat'
 import About from '../auth/About';
@@ -16,7 +17,7 @@ import './ServerPage.css';
 const ServerPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id, channelId } = useParams();
   const [open, setOpen] = useState(false);
   const [showCreateChannel, setShowCreateChannel] = useState(false);
   const [channel, setChannel] = useState("");
@@ -45,7 +46,13 @@ const ServerPage = () => {
 
   useEffect(() => {
     dispatch(getServer((id))) // dispatch load current server
-    dispatch(getChannelsServer(id));
+    dispatch(getChannelsServer(id))
+      .then(res => {
+        if (!channelId) {
+          // if channel id does not exist, render chat message from the first channel instance in the server
+          dispatch(chatForChannel(res[0].id))
+        }
+      });
     dispatch(allCategories(id));
     dispatch(allUsersByServerId(id));
   }, [dispatch, id]);
@@ -95,6 +102,11 @@ const ServerPage = () => {
     // close modal
     setOpen(false);
     setChannelTitle("");
+  }
+
+  // handle isLoaded and channel state
+  const setChannelandIsLoaded = (channel) => {
+    setChannel(channel)
   }
 
   return (
@@ -177,7 +189,7 @@ const ServerPage = () => {
                 {channels?.map((channel) =>
                   channel.category_id === category.id ? (
                     <NavLink key={channel.id} to={`/servers/${server.id}/channel/${channel.id}`}>
-                      <li onClick={() => setChannel(channel)}>
+                      <li onClick={() => setChannelandIsLoaded(channel)}>
                         {`${channel.title}`}
                         {user.id === server?.owner_id && (
                           <button type="button" onClick={() => handleOpen(channel)} className="edit-channel">
@@ -194,7 +206,7 @@ const ServerPage = () => {
         </div>
       </div>
       <div className="chat-div">
-        <Chat server={server} />
+        <Chat server={server} channels={channels} />
       </div>
       <div className="sqr">
       </div>

@@ -3,22 +3,20 @@ import { NavLink, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { io } from 'socket.io-client';
 import { chatPost, chatForChannel } from "../../store/chats"
+import { deleteChat } from "../../store/chats";
 import './index.css';
 let socket;
 
-const Chat = ({server}) => {
+const Chat = ({ server, channels }) => {
     const [chatInput, setChatInput] = useState("");
     const [messages, setMessages] = useState([]);
     const [channel, setChannel] = useState()
-    const [show, setShow] = useState(false)
     const [messagePosted, setMessagePosted] = useState(false)
     const [content, setContent] = useState('')
     const user = useSelector(state => state.session.user)
     const dispatch = useDispatch();
     let chats = useSelector(state => state.chats)
     const { channelId } = useParams();
-
-    console.log('SERVER-----: ', server)
 
     //Auto scroll feature
     const divRef = useRef(null);
@@ -30,8 +28,10 @@ const Chat = ({server}) => {
     });
 
     useEffect(() => {
-        dispatch(chatForChannel(channelId))
-        setShow(true)
+        // render the chat messages on the selected channel
+        if (channelId) {
+            dispatch(chatForChannel(channelId))
+        }
     }, [dispatch, channelId])
 
     useEffect(() => {
@@ -67,8 +67,7 @@ const Chat = ({server}) => {
 
 
     const ShowChats = () => {
-        if (chats)
-            return show ? chats.map((chat) => {
+            return chats?.map((chat) => {
                 return (
                     <div id="previousMessages" key={chat.id}>
                         <div id="Chat_user">
@@ -76,11 +75,14 @@ const Chat = ({server}) => {
                             {server.owner_id === chat.user.id && (
                                 <small id="admin-small-text">server admin</small>
                             )}
+                            {chat.owner_id === user.id && (
+                                <button id="btn-delete-chat" type="button">delete</button>
+                            )}
                         </div>
                         <div id="Chat_message">{chat.content}</div>
                     </div>
                 );
-            }) : <div></div>
+            })
     }
 
     // const place = show ? chats?.map((msg) => {
@@ -113,21 +115,23 @@ const Chat = ({server}) => {
                 <ShowChats />
                 <div ref={divRef} />
             </div>
-            <form id="chat-form" method="POST" onSubmit={sendChat}>
-                <div id="chat-container">
-                    <input
-                        type="text"
-                        placeholder="Message"
-                        value={chatInput}
-                        onChange={(e) => setChatInput(e.target.value)}
-                        required
-                        maxLength={500}
-                    />
-                    <button type="submit">
-                        <i className="far fa-paper-plane"></i>
-                    </button>
-                </div>
-            </form>
+            {channelId && (
+                <form id="chat-form" method="POST" onSubmit={sendChat}>
+                    <div id="chat-container">
+                        <input
+                            type="text"
+                            placeholder="Message"
+                            value={chatInput}
+                            onChange={(e) => setChatInput(e.target.value)}
+                            required
+                            maxLength={500}
+                        />
+                        <button type="submit">
+                            <i className="far fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+            )}
         </>
     )
     )

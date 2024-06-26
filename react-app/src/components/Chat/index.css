@@ -2,17 +2,17 @@
     margin: 15px 0px 4px 6px;
 }
 
-#Chat_user {
-    font-weight: bold;
-    color: white;
-}
-
 #Chat_message {
     display:inline-block;
     color: #e7e7e7;
     font-size: 14px;
     overflow-wrap: anywhere;
     margin-top: 5px;
+}
+
+#Chat_user {
+    font-weight: bold;
+    color: white;
 }
 
 #admin-small-text {
@@ -25,6 +25,22 @@
     background-color: #999494;
     display: inline-block;
     transform: translateY(-10%);
+}
+
+#btn-delete-chat {
+    float: right;
+    margin-right: 10px;
+    background-color: #ce554a;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    color: #f9fbfe;
+    padding: 1px 6px;
+    font-size: 12px;
+}
+
+#btn-delete-chat:active {
+    transform: scale(.98);
 }
 
 /* #messageComponent {

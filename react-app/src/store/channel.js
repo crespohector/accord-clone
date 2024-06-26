@@ -34,7 +34,7 @@ export const getChannelsServer = (server_id) => async (dispatch) => {
     const response = await fetch(`/api/channels/server/${server_id}`)
     const data = await response.json();
     dispatch(get_channel(data))
-    return ;
+    return data.channels;
 }
 
 //GET all channels based on category id

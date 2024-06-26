@@ -5,22 +5,13 @@ from app.forms import ChatForm
 
 chat_routes = Blueprint("chat", __name__)
 
-# @chat_routes.route("/")
-# def allChats():
-#     #Grabs all the chat messages. Probably will delete later.
-#     chats = Chat.query.all()
-#     return {"chats": [chat.to_dict() for chat in chats]}
-
-
 #Grabs all the chat messages from specific channel
 @chat_routes.route("/<int:id>")
 def chat_channel(id):
     chats = Chat.query.filter(Chat.channel_id == id).all()
     return {"chats": [chat.to_dict() for chat in chats]}
 
-
 @chat_routes.route("/<int:id>", methods=['POST'])
-#For now, any user can post to the whole chat as a whole
 def chat_post(id):
     form = ChatForm()
     user_id = current_user.id
@@ -39,4 +30,12 @@ def chat_post(id):
 
     return {"error": "unable to fulfill request"}, 400
 
-#create a delete route for chats
+@chat_routes.route("/<int:id>", methods=['DELETE'])
+def delete_chat(id):
+    """
+    DELETE - delete the user's chat message
+    """
+    chat = Chat.query.get(id)
+    db.session.delete(chat)
+    db.session.commit()
+    return chat.to_dict()
