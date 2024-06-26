@@ -1,5 +1,6 @@
 const SHOW_CHAT = "chats/SHOW_CHAT"
 const ADD_CHAT = "chats/ADD_CHAT"
+const DELETE_CHAT = "chats/DELETE_CHAT";
 
 const showChat = (list) => ({
     type: SHOW_CHAT,
@@ -9,6 +10,11 @@ const showChat = (list) => ({
 const addChat = (content) => ({
     type: ADD_CHAT,
     payload: content
+})
+
+const removeChat = ({id}) => ({
+    type: DELETE_CHAT,
+    payload: id,
 })
 
 //thinking about doing the GET requests in the chat component
@@ -38,8 +44,19 @@ export const chatPost = (id, content) => async (dispatch) => {
     if (data.errors) {
         return data;
     }
-    // console.log("this is the thunk data", data)
     dispatch(addChat(data))
+    return {};
+}
+
+export const deleteChat = (id) => async (dispatch) => {
+    const res = await fetch(`/api/chat/${id}`, {
+        method: 'DELETE'
+    });
+    const data = await res.json();
+    if (data.errors) {
+        return data;
+    }
+    dispatch(removeChat(data))
     return {};
 }
 
@@ -47,13 +64,18 @@ export default function chatReducer(state = [], action) {
     let newState;
     switch(action.type) {
         case SHOW_CHAT:
-            // console.log(action.payload)
             newState = action.payload.chats;
-            // console.log(newState)
             return newState;
         case ADD_CHAT:
             newState = [...state, action.payload];
             return newState;
+        case DELETE_CHAT:
+            // perform a for loop to find the chat instance to delete
+            newState = state.filter(obj => {
+                return obj.id !== action.payload;
+            })
+            return newState;
+
         default:
             return state;
     }
