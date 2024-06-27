@@ -34,8 +34,8 @@ const LoginForm = () => {
     setPassword(e.target.value);
   };
 
-  const demoLogin = async (e) => {
-    const email = 'demo@aa.io';
+  const demoLogin = async (e, demoUser1=true) => {
+    const email = demoUser1 ? 'demo@aa.io' : "jane@yahoo.com";
     const password = 'password';
     e.preventDefault();
     setErrors([]);
@@ -78,7 +78,8 @@ const LoginForm = () => {
             />
           </div>
           <button type="submit" id="button1">Login</button>
-          <button type="submit" id="button2" onClick={demoLogin}>Demo Login</button>
+          <button type="submit" id="button2" onClick={demoLogin}>Login as Demo User</button>
+          <button type="submit" id="button2" onClick={(e) => demoLogin(e, false)}>Login as Jane Ford</button>
           <div id="register__link">
             <p>Need an account?</p>
             <NavLink to="/sign-up">Register</NavLink>
