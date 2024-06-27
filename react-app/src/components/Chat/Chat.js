@@ -1,18 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { io } from 'socket.io-client';
 import { chatPost, chatForChannel } from "../../store/chats"
 import { deleteChat } from "../../store/chats";
 import './index.css';
-let socket;
+
+const socket = io('http://127.0.0.1:5000/');
 
 const Chat = ({ server, channels }) => {
     const [chatInput, setChatInput] = useState("");
     const [messages, setMessages] = useState([]);
     const [channel, setChannel] = useState()
-    const [messagePosted, setMessagePosted] = useState(false)
-    const [content, setContent] = useState('')
     const user = useSelector(state => state.session.user)
     const dispatch = useDispatch();
     let chats = useSelector(state => state.chats)
@@ -35,33 +34,23 @@ const Chat = ({ server, channels }) => {
     }, [dispatch, channelId])
 
     useEffect(() => {
-
-        socket = io();
-
-        socket.on("chat", (chat) => {
-            setMessages(messages => [...messages, chat])
+        // listen for chat messages from the server
+        socket.on("chat", (data) => {
+            console.log('CHAT-----: ', data);
+            // setMessages(messages => [...messages, chat])
+            dispatch(chatPost(data))
         })
 
         return (() => {
             socket.disconnect()
         })
-
-    }, [chats])
-
-    // const updateChannel = (e) => {
-    //     setChannel(e.target.value)
-    // }
+    }, [])
 
     const sendChat = async (e) => {
         e.preventDefault()
-        // socket.emit("chat_to_channel", {
-        //     channel_id: channel.id,
-        //     body: content
-        // })
-        socket.emit("chat", { user: user.username, msg: chatInput });
+        socket.emit("chat", { user, chat: chatInput, channel_id: channelId });
+        // dispatch(chatPost(channelId, chatInput))
         setChatInput("")
-        setMessagePosted(true)
-        await dispatch(chatPost(channelId, chatInput))
     }
 
     const handleDeleteChat = (e, {id}) => {
@@ -71,14 +60,15 @@ const Chat = ({ server, channels }) => {
 
     const ShowChats = () => {
             return chats?.map((chat) => {
+                const isSessionUser = chat.owner_id === user.id;
                 return (
                     <div id="previousMessages" key={chat.id}>
-                        <div id="Chat_user">
+                        <div className={isSessionUser ? "chat_user-active" : "Chat_user"}>
                             {chat.user.username}
                             {server.owner_id === chat.user.id && (
                                 <small id="admin-small-text">server admin</small>
                             )}
-                            {chat.owner_id === user.id && (
+                            {isSessionUser && (
                                 <button id="btn-delete-chat" type="button" onClick={(e) => handleDeleteChat(e, chat)}>delete</button>
                             )}
                         </div>
@@ -88,32 +78,8 @@ const Chat = ({ server, channels }) => {
             })
     }
 
-    // const place = show ? chats?.map((msg) => {
-    //     return (
-    //         <div id="previousMessages" key={msg.id}>
-    //             <div id="Chat_user">{user.username}</div>
-    //             <div id="Chat_message">{msg.content}</div>
-    //         </div>
-    //     );
-    // }) : <div></div>
-
-
-    // const messagesForChannel = async () => {
-    //     // console.log("This is a test")
-    //     await dispatch(chatForChannel(channel))
-    //     setShow(true)
-    // }
-
     return (user && (
         <>
-            {/* <div id="channelTest">
-                <input
-                    placeholder="Select Channel"
-                    value={channel}
-                    onChange={updateChannel}
-                />
-                <button onClick={messagesForChannel}> Channel {channel}</button>
-            </div> */}
             <div >
                 <ShowChats />
                 <div ref={divRef} />
@@ -142,17 +108,3 @@ const Chat = ({ server, channels }) => {
 
 
 export default Chat;
-
-/*
-
- {messages.map((message, ind) => (
-                    <div key={ind} id="messageComponent">
-                        {// <div id="RecentMessage">Most Recent Message From you</div> }
-                        <div id="Chat_user" key={ind}>{`${message.user}`}</div>
-                        <div id="another">
-                            <div id="Chat_message" key={ind}>{` ${message.msg} `}</div>
-                        </div>
-                    </div>
-                ))}
-
-*/

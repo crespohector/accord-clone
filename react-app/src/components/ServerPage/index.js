@@ -35,8 +35,6 @@ const ServerPage = () => {
 
   const isOwner = server?.owner_id === user?.id;
 
-  console.log('users: ', usersByServer)
-
   // const messagesEndRef = useRef(null)
 
   // const scrollToBottom = () => (

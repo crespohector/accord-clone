@@ -10,9 +10,14 @@
     margin-top: 5px;
 }
 
-#Chat_user {
+.Chat_user {
     font-weight: bold;
-    color: white;
+    color: #fff;
+}
+
+.chat_user-active {
+    font-weight: bold;
+    color: #ecc40f;
 }
 
 #admin-small-text {
@@ -42,6 +47,8 @@
 #btn-delete-chat:active {
     transform: scale(.98);
 }
+
+
 
 /* #messageComponent {
     display:flex;
