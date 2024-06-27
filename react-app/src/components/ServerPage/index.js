@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { NavLink, useParams, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -35,16 +35,7 @@ const ServerPage = () => {
 
   const isOwner = server?.owner_id === user?.id;
 
-  // const messagesEndRef = useRef(null)
-
-  // const scrollToBottom = () => (
-  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  // )
-
-  // useEffect(() => {
-  //   scrollToBottom()
-  // }, []);
-
+  // listen for changing if the server id parameter changes
   useEffect(() => {
     dispatch(getServer((id))) // dispatch load current server
     dispatch(getChannelsServer(id))
@@ -56,6 +47,9 @@ const ServerPage = () => {
       });
     dispatch(allCategories(id));
     dispatch(allUsersByServerId(id));
+    return () => {
+      setChannel('');
+    }
   }, [dispatch, id]);
 
   //dispatch the edit channel thunk action
@@ -71,14 +65,11 @@ const ServerPage = () => {
     setOpen(false)
   }
 
-  const handleOpen = (channel, setChannelState = false) => {
-    setChannel(channel)
+  const handleOpen = (setChannelState = false) => {
+    // open create channel form if true
     setShowCreateChannel(setChannelState);
+    // open modal
     setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
   };
 
   // handle leave server button
@@ -105,11 +96,6 @@ const ServerPage = () => {
     setChannelTitle("");
   }
 
-  // handle isLoaded and channel state
-  const setChannelandIsLoaded = (channel) => {
-    setChannel(channel)
-  }
-
   // Redirect user to home page if user does not belong to the server
   if (usersByServer) {
     const doesNotBelongToServer = !(usersByServer.find((obj) => obj.id === user.id))
@@ -118,7 +104,7 @@ const ServerPage = () => {
 
   return (
     <div className="server-page">
-      <Modal open={open} onClose={handleClose}>
+      <Modal open={open} onClose={() => setOpen(false)}>
         {showCreateChannel ? (
           <div id="modal_channel">
             <h1>Create Channel</h1>
@@ -196,10 +182,10 @@ const ServerPage = () => {
                 {channels?.map((channel) =>
                   channel.category_id === category.id ? (
                     <NavLink key={channel.id} to={`/servers/${server.id}/channel/${channel.id}`}>
-                      <li onClick={() => setChannelandIsLoaded(channel)}>
+                      <li onClick={() => setChannel(channel)}>
                         {`${channel.title}`}
-                        {user.id === server?.owner_id && (
-                          <button type="button" onClick={() => handleOpen(channel)} className="edit-channel">
+                        {isOwner && (
+                          <button type="button" onClick={() => handleOpen()} className="edit-channel">
                             ⚙
                           </button>
                         )}
@@ -213,14 +199,14 @@ const ServerPage = () => {
         </div>
       </div>
       <div className="chat-div">
-        <Chat server={server} channels={channels} />
+        <Chat server={server} />
       </div>
       <div className="sqr">
       </div>
       <div className="channel-name">
-        <span className="channel-text">{channel?.server_id !== server.id ? channels[0]?.title : channel?.title}</span>
+        <span className="channel-text">{channelId ? channel?.title : channels[0]?.title}</span>
         {isOwner ? (
-          <button className="create-channel-btn" onClick={() => handleOpen(channel, true)}>Create Channel</button>
+          <button className="create-channel-btn" onClick={() => handleOpen(true)}>Create Channel</button>
         ) : (
           <button className="leave-server-btn" onClick={(e) => leaveServer(e)}>Leave Server</button>
         )}

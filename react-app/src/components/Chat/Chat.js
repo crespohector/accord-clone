@@ -8,55 +8,37 @@ import './index.css';
 
 let socket = io('http://127.0.0.1:5000/');
 
-const Chat = ({ server, channels }) => {
+const Chat = ({ server }) => {
     const [chatInput, setChatInput] = useState("");
-    const [channel, setChannel] = useState()
-    const user = useSelector(state => state.session.user)
+    const user = useSelector(state => state.session.user);
     const dispatch = useDispatch();
-    let chats = useSelector(state => state.chats)
+    let chats = useSelector(state => state.chats);
     const { channelId } = useParams();
 
     //Auto scroll feature
     const divRef = useRef(null);
 
     useEffect(() => {
-        if (channel) {
-        }
         divRef.current.scrollIntoView({ behavior: 'smooth' });
     });
 
-    // useEffect(() => {
-    //     // render the chat messages on the selected channel
-    //     if (channelId) {
-    //         dispatch(chatForChannel(channelId))
-    //     }
-    // }, [dispatch, channelId])
-
     useEffect(() => {
-        console.log('HIT----')
         // render the chat messages on the selected channel
         if (channelId) {
             dispatch(chatForChannel(channelId))
-
-            console.log('socket: ', socket)
+            // attempt to reconnect if disconnected
             if (socket.disconnected) {
-                console.log('reconnect---')
                 socket = io('http://127.0.0.1:5000/');
             }
-
             // listen for chat messages from the server
             socket.on("chat", (data) => {
-                // unmount if channel ids do not match
                 // render incoming chat message only in the correct channel
-                console.log('CHAT-----: ', data, channelId);
-                console.log(data?.chat.channel_id == channelId)
                 if (data?.chat.channel_id == channelId) {
                     dispatch(chatPost(data))
                 }
             })
         }
         return (() => {
-                console.log('unmount------')
                 socket.disconnect()
         })
     }, [channelId])
@@ -76,6 +58,9 @@ const Chat = ({ server, channels }) => {
     const ShowChats = () => {
         return chats?.map((chat) => {
             const isSessionUser = chat.owner_id === user.id;
+            const date = new Date(chat.created_on);
+            const localTime = date.toLocaleString(date)
+            const slicedLocalTime = localTime.slice(0, localTime.indexOf(":") + 3) + localTime.slice(localTime.indexOf(":") + 6) // remove the seconds time
             return (
                 <div id="previousMessages" key={chat.id}>
                     <div className={isSessionUser ? "chat_user-active" : "Chat_user"}>
@@ -83,6 +68,7 @@ const Chat = ({ server, channels }) => {
                         {server.owner_id === chat.user.id && (
                             <small id="admin-small-text">server admin</small>
                         )}
+                        <small id="chat-date">{slicedLocalTime}</small>
                         {isSessionUser && (
                             <button id="btn-delete-chat" type="button" onClick={(e) => handleDeleteChat(e, chat)}>delete</button>
                         )}

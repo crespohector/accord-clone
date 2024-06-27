@@ -32,6 +32,12 @@
     transform: translateY(-10%);
 }
 
+#chat-date {
+    color: #acafb6;
+    font-size: 11px;
+    margin-left: 5px;
+}
+
 #btn-delete-chat {
     float: right;
     margin-right: 10px;
