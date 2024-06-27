@@ -99,9 +99,12 @@
 .chat-div {
     background-color: #32353a;
     grid-area: chat;
-    color: #dcddde;
-    overflow-y: auto;
+    /* overflow-y: auto; */
     position: relative;
+}
+
+.chat-div::-webkit-scrollbar {
+    background-color: #32353a;
 }
 
 .channel {
@@ -196,11 +199,6 @@
     background-color: #32353a;
     border-bottom: 1px solid rgb(16, 16, 16);
     box-shadow: rgba(4, 4, 5, 0.2) 0px 1px 0px;
-}
-
-
-.chat-div::-webkit-scrollbar {
-    background-color: #32353a;
 }
 
 .sqr {

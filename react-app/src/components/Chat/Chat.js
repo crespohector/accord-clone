@@ -81,7 +81,7 @@ const Chat = ({ server }) => {
 
     return (user && (
         <>
-            <div >
+            <div className="show-chats-container">
                 <ShowChats />
                 <div ref={divRef} />
             </div>
