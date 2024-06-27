@@ -19,6 +19,6 @@ class Chat(db.Model):
         "content": self.content,
         "channel_id": self.channel_id,
         "owner_id": self.owner_id,
-        "created_on": self.created_on,
+        "created_on": self.created_on.strftime("%Y-%m-%d %H:%M:%S"),
         "user": self.user.to_dict()
         }
