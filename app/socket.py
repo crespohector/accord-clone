@@ -30,6 +30,21 @@ def handle_chat(data):
     }
     emit("chat", payload, broadcast=True)
 
+# delete chat messages
+@socketio.on("delete-chat")
+def delete_chat(data):
+    # query for the chat instance in the db
+    chat = Chat.query.get(data["id"])
+    # apply deletion of the chat instance onto the SQL Alchemy session object
+    # return the id of the deleted chat instance
+    db.session.delete(chat)
+    db.session.commit()
+    payload = {
+        "chat_id": chat.id,
+        "channel_id": chat.channel_id
+    }
+    emit("delete-chat", payload, broadcast=True)
+
 # @socketio.on('connect')
 # def test_connect():
 #     print('CONNECTED-----')

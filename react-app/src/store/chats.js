@@ -12,7 +12,7 @@ const addChat = (content) => ({
     payload: content
 })
 
-const removeChat = ({id}) => ({
+const removeChat = (id) => ({
     type: DELETE_CHAT,
     payload: id,
 })
@@ -48,15 +48,15 @@ export const chatPost = (data, id, content) => async (dispatch) => {
     return {};
 }
 
-export const deleteChat = (id) => async (dispatch) => {
-    const res = await fetch(`/api/chat/${id}`, {
-        method: 'DELETE'
-    });
-    const data = await res.json();
-    if (data.errors) {
-        return data;
-    }
-    dispatch(removeChat(data))
+export const deleteChat = (chatId) => async (dispatch) => {
+    // const res = await fetch(`/api/chat/${id}`, {
+    //     method: 'DELETE'
+    // });
+    // const data = await res.json();
+    // if (data.errors) {
+    //     return data;
+    // }
+    dispatch(removeChat(chatId))
     return {};
 }
 

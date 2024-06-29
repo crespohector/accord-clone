@@ -37,6 +37,15 @@ const Chat = ({ server }) => {
                     dispatch(chatPost(data))
                 }
             })
+            // listen for delete chat messages
+            socket.on("delete-chat", (data) => {
+                // render incoming chat message only in the correct channel
+                console.log('data------: ', data)
+                if (data?.channel_id == channelId) {
+                    // dispatch deleted chat post
+                    dispatch(deleteChat(data.chat_id))
+                }
+            })
         }
         return (() => {
                 socket.disconnect()
@@ -52,7 +61,7 @@ const Chat = ({ server }) => {
 
     const handleDeleteChat = (e, { id }) => {
         e.preventDefault();
-        dispatch(deleteChat(id));
+        socket.emit("delete-chat", { id });
     }
 
     const ShowChats = () => {

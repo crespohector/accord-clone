@@ -2,23 +2,12 @@
     overflow:hidden;
 }
 
-/* #html::-webkit-scrollbar {
-    display: none;
-}
-#server-page-container {
-    display:flex;
-    overflow-y: hidden scroll;
-}  */
-
 .server-page {
     display: grid;
     position: fixed;
     width: 100%;
     grid-template-columns: 52px 80px 120px 1fr 1fr 1fr 1fr 1fr 1fr 130px 150px;
     /* grid-template-columns: 1.25fr 1.25fr 2fr 2fr 2fr 2fr 2fr 2fr 1fr 2fr 2fr; */
-    /* sizing for navbar may be off due to grid size being larger
-    than the chat and server name bar */
-    /* grid-template-rows: 50px 400px 400px 400px 300px; */
     grid-template-rows: 6vh 1fr 1fr 1fr;
     grid-template-areas:
     "name name name channel-name channel-name channel-name channel-name channel-name channel-name options options"
@@ -75,20 +64,9 @@
     height: 100%;
     padding-top: 20px;
     overflow-y: auto;
-    /* position: fixed;
-    left: 72px;
-    top: 50px;
-    width: 15%; */
 }
-/*
-.categories::-webkit-scrollbar {
-    background-color: #2F3136;
-    width: 5px;
-} */
-
 
 .categories li {
-    /* list-style-image: url("../../images/1247106.png"); */
     list-style-type: none;
 }
 
@@ -99,7 +77,6 @@
 .chat-div {
     background-color: #32353a;
     grid-area: chat;
-    /* overflow-y: auto; */
     position: relative;
 }
 
