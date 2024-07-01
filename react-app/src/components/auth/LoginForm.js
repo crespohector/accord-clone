@@ -34,7 +34,7 @@ const LoginForm = () => {
     setPassword(e.target.value);
   };
 
-  const demoLogin = async (e, demoUser1=true) => {
+  const demoLogin = async (e, demoUser1 = true) => {
     const email = demoUser1 ? 'demo@aa.io' : "jane@yahoo.com";
     const password = 'password';
     e.preventDefault();
@@ -54,9 +54,9 @@ const LoginForm = () => {
         <h1 id="login__title">Welcome back!</h1>
         <h3 id="login__title--subtitle">We're so excited to see you again!</h3>
         <form onSubmit={onLogin} id="login__form">
-            {errors.map((error, idx) => (
-              <h5 className="errors" key={idx}>{error}</h5>
-            ))}
+          {errors.map((error, idx) => (
+            <h5 className="errors" key={idx}>{error}</h5>
+          ))}
           <div>
             <label htmlFor="email">Email</label>
             <input
@@ -77,9 +77,11 @@ const LoginForm = () => {
               required
             />
           </div>
-          <button type="submit" id="button1">Login</button>
-          <button type="submit" id="button2" onClick={demoLogin}>Login as Demo User</button>
-          <button type="submit" id="button2" onClick={(e) => demoLogin(e, false)}>Login as Jane Ford</button>
+          <button type="submit" className="button">Login</button>
+          <div className="demo-btn-container">
+            <button type="submit" className="button" onClick={demoLogin}>Login as Demo User</button>
+            <button type="submit" className="button" onClick={(e) => demoLogin(e, false)}>Login as Jane Ford</button>
+          </div>
           <div id="register__link">
             <p>Need an account?</p>
             <NavLink to="/sign-up">Register</NavLink>

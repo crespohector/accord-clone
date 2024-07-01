@@ -3,11 +3,8 @@ import os
 from .models import User, Chat, Channel, db
 
 if os.environ.get('FLASK_ENV') == 'production':
-    origins = [
-        # change the origins to fit render url
-        'http://accordapp.herokuapp.com',
-        'https://accordapp.herokuapp.com'
-    ]
+    REACT_APP_BASE_URL = os.getenv('REACT_APP_BASE_URL')
+    origins = [REACT_APP_BASE_URL]
 else:
     origins = "*"
 
@@ -29,6 +26,21 @@ def handle_chat(data):
         "payload": data
     }
     emit("chat", payload, broadcast=True)
+
+# delete chat messages
+@socketio.on("delete-chat")
+def delete_chat(data):
+    # query for the chat instance in the db
+    chat = Chat.query.get(data["id"])
+    # apply deletion of the chat instance onto the SQL Alchemy session object
+    # return the id of the deleted chat instance
+    db.session.delete(chat)
+    db.session.commit()
+    payload = {
+        "chat_id": chat.id,
+        "channel_id": chat.channel_id
+    }
+    emit("delete-chat", payload, broadcast=True)
 
 # @socketio.on('connect')
 # def test_connect():

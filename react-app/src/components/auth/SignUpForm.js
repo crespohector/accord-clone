@@ -117,8 +117,7 @@ const SignUpForm = () => {
               minLength={4}
             ></input>
           </div>
-          <button type="submit">Sign Up</button>
-          <button type="submit" id="demo__login" onClick={demoLogin}>Demo Login</button>
+          <button type="submit" className="button">Sign Up</button>
           <NavLink to="/login" id="login__link">Already have an account?</NavLink>
         </form>
       </div>
