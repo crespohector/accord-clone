@@ -3,11 +3,8 @@ import os
 from .models import User, Chat, Channel, db
 
 if os.environ.get('FLASK_ENV') == 'production':
-    origins = [
-        # change the origins to fit render url
-        'http://accordapp.herokuapp.com',
-        'https://accordapp.herokuapp.com'
-    ]
+    REACT_APP_BASE_URL = os.getenv('REACT_APP_BASE_URL')
+    origins = [REACT_APP_BASE_URL]
 else:
     origins = "*"
 

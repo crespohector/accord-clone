@@ -6,7 +6,7 @@ import { chatPost, chatForChannel } from "../../store/chats"
 import { deleteChat } from "../../store/chats";
 import './index.css';
 
-let socket = io('http://127.0.0.1:5000/');
+let socket = io(process.env.REACT_APP_BASE_URL || 'http://127.0.0.1:5000/');
 
 const Chat = ({ server }) => {
     const [chatInput, setChatInput] = useState("");
