@@ -25,7 +25,6 @@ export const getServers = () => async (dispatch) => {
 }
 
 export const joinServer = (server_id) => async (dispatch) => {
-   // console.log("THIS IS THE API BACKEND SERVER ID REQUEST", server_id)
    const response = await fetch(`/api/home/${server_id}`, {
      method: 'POST'
    });
