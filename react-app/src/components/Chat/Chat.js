@@ -28,7 +28,7 @@ const Chat = ({ server }) => {
             dispatch(chatForChannel(channelId))
             // attempt to reconnect if disconnected
             if (socket.disconnected) {
-                socket = io('http://127.0.0.1:5000/');
+                socket = io(process.env.REACT_APP_BASE_URL || 'http://127.0.0.1:5000/');
             }
             // listen for chat messages from the server
             socket.on("chat", (data) => {
@@ -40,7 +40,6 @@ const Chat = ({ server }) => {
             // listen for delete chat messages
             socket.on("delete-chat", (data) => {
                 // render incoming chat message only in the correct channel
-                console.log('data------: ', data)
                 if (data?.channel_id == channelId) {
                     // dispatch deleted chat post
                     dispatch(deleteChat(data.chat_id))
