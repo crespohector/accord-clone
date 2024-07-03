@@ -18,7 +18,6 @@ class Channel(db.Model):
     #references for data going out
     chats = db.relationship("Chat", cascade="all, delete", back_populates="channel")
 
-
     created_on = db.Column(db.DateTime, server_default=db.func.now())
     updated_on = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 

@@ -89,9 +89,10 @@ body {
 
 .server__container--title {
    color: white;
-   font-size: 16px;
-   margin-top: 4px;
-   margin-left: 8px;
+   font-size: 20px;
+   margin-top: 5px;
+   margin-left: 10px;
+   font-family: "Inria Sans", sans-serif;
 }
 
 .server__container--button {

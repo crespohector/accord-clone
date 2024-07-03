@@ -54,7 +54,6 @@ const Chat = ({ server }) => {
     const sendChat = async (e) => {
         e.preventDefault()
         socket.emit("chat", { user, chat: chatInput, channel_id: channelId });
-        // dispatch(chatPost(channelId, chatInput))
         setChatInput("")
     }
 

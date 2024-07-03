@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { Redirect, NavLink } from 'react-router-dom';
-import { login } from "../../store/session";
 import { signUp } from '../../store/session';
+import { useLoading } from "../context/LoadingContext";
 import './SignUpForm.css'
 
 const SignUpForm = () => {
@@ -13,6 +13,7 @@ const SignUpForm = () => {
   const [repeatPassword, setRepeatPassword] = useState("");
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
+  const { setIsLoading } = useLoading();
 
   const onSignUp = async (e) => {
     e.preventDefault();
@@ -21,7 +22,11 @@ const SignUpForm = () => {
       setErrors(["Passwords are mismatched"]);
       return;
     }
-    const res = await dispatch(signUp(username, email, password))
+    // render loading animation
+    setIsLoading(true);
+    const res = await dispatch(signUp(username, email, password));
+    // stop loading animation
+    setIsLoading(false);
     // check if errors property exist
     if (res.errors) {
       const arr = [];
@@ -49,13 +54,6 @@ const SignUpForm = () => {
   const updateRepeatPassword = (e) => {
     setRepeatPassword(e.target.value);
   };
-
-  const demoLogin = async (e) => {
-    const email = 'demo@aa.io';
-    const password = 'password';
-    e.preventDefault();
-    await dispatch(login(email, password));
-  }
 
   if (user) {
     return <Redirect to="/" />;
