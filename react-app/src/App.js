@@ -15,6 +15,7 @@ import Delete from './components/Delete';
 import Update from "./components/Update";
 import { LoadingProvider } from "./components/context/LoadingContext";
 import Loading from "./components/Loading";
+import About from "./components/auth/About";
 
 function App() {
   const user = useSelector(state => state.session.user)
@@ -43,9 +44,11 @@ function App() {
           <Switch>
             <Route path="/login" exact={true}>
               <LoginForm />
+              <About />
             </Route>
             <Route path="/sign-up" exact={true}>
               <SignUpForm />
+              <About />
             </Route>
             <ProtectedRoute path="/users" exact={true} >
               <UsersList />

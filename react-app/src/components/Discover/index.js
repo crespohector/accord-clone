@@ -3,7 +3,6 @@ import { getServers, addMemberToServer } from "../../store/servers";
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from "react-router-dom";
 import UserBar from "../UserBar"
-import About from "../auth/About"
 import './Discover.css'
 
 function Discover() {
@@ -72,9 +71,6 @@ function Discover() {
                ))}
             </div>
          </div>
-         <button className="about-btn">
-            <About />
-         </button>
       </div>
    )
 }

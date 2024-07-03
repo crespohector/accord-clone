@@ -153,7 +153,7 @@ const ServerPage = () => {
       </Modal>
 
       <div className="name">
-        <div><h5>{server?.name}</h5></div>
+        <div><h4>{server?.name}</h4></div>
         {isOwner && (
           <>
             <button className="server-btn">

@@ -120,12 +120,3 @@ body {
    border-color: black;
    background-color: #494c53;
 }
-
-/* The About btn */
-.about-btn {
-   background-color: rgb(100, 99, 99);
-   border-radius: 5px;
-   position: fixed;
-   right:    30px;
-   bottom:   10px;
-}

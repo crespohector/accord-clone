@@ -17,7 +17,6 @@ const removeChat = (id) => ({
     payload: id,
 })
 
-//thinking about doing the GET requests in the chat component
 export const chatForChannel = (channel_id) => async (dispatch) => {
     const res = await fetch(`/api/chat/${channel_id}`,{
         headers: {
