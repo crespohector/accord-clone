@@ -3,7 +3,6 @@ import os
 import random
 
 def seed_serv():
-
     # make a query to get the first 6 users
     users = User.query.limit(6).all()
 
@@ -11,6 +10,7 @@ def seed_serv():
 
     assets_dir = os.path.join(seeds_dir, "..", "..", "assets")
 
+    # list all files in the assets folder
     images = os.listdir(assets_dir)
 
     # iterate through the images in the assets folder
