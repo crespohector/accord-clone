@@ -1,20 +1,20 @@
 # Welcome to Accord!
-## Live Link: https://accordapp.herokuapp.com/
+## Live Link: https://accord-0p9a.onrender.com/login
 A clone of discord.com where users are able to join servers and chat in channels.
 
 ![accordSplashPage](https://user-images.githubusercontent.com/76798385/120115081-1b083800-c150-11eb-83ec-4dc6ae13d465.png)
 ## MVP
   * New account creation, log in, log out, and guest/demo login.
   * Users can browse through a list or servers they belong to.
-  * Users can explore servers to join by clicking the compass button.  
+  * Users can explore servers to join by clicking the compass button.
   * Users can browse through channels named for different purposes.
   * Logged in users can live chat in any channel.
   * Logged in users can post messages that update the channel automatically without reloading the page.
- 
+
 ## BONUS / STRETCH GOALS
   * Logged in users can privately direct message with other users in a specific server.
   * Logged in users can be invited to private channels within a server. Users can post media in channels.
-  
+
 ## TECHNOLOGIES USED
   * React-Redux
   * Javascript
@@ -23,7 +23,7 @@ A clone of discord.com where users are able to join servers and chat in channels
   * PSQL Database
   * CSS
   * HTML
-  
+
 # **Database Schema**
 
 ## `users`
