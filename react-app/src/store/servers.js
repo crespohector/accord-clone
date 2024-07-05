@@ -87,7 +87,6 @@ export const allServersByUserId = () => async (dispatch) => {
 
 //POST a new server
 export const addServer = (image, name) => async (dispatch) => {
-
   const formData = new FormData();
   formData.append('image', image);
   formData.append('name', name);

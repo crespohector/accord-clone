@@ -3,6 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from .user_server import user_server
 
+import base64
+
 class User(db.Model, UserMixin):
   __tablename__ = 'users'
 

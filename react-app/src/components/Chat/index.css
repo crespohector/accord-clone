@@ -1,23 +1,45 @@
 #previousMessages {
-    margin: 15px 0px 15px 10px;
+    margin: 20px 0px 20px 5px;
+    display: flex;
+    gap: 10px;
+}
+
+div#previousMessages:nth-child(1) {
+    margin-top: 10px;
+}
+
+#previousMessage:first-child {
+    margin: 0px;
+}
+
+#previousMessage:nth-child(1) {
+    margin-top: 0px;
+}
+
+.chat-wrapper {
+    width: 100%;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
 #Chat_message {
     display:inline-block;
-    color: #e7e7e7;
+    color: #d3d6d9;
     font-size: 14px;
     overflow-wrap: anywhere;
     margin-top: 5px;
 }
 
 .Chat_user {
-    font-weight: bold;
-    color: #fff;
+    color: #e8e8eb;
 }
 
 .chat_user-active {
-    font-weight: bold;
-    color: #ecc40f;
+    color: #fed005;
 }
 
 #admin-small-text {
@@ -30,6 +52,7 @@
     background-color: #999494;
     display: inline-block;
     transform: translateY(-10%);
+    font-weight: bold;
 }
 
 #chat-date {
@@ -46,7 +69,6 @@
     border-radius: 2px;
     cursor: pointer;
     color: #f9fbfe;
-    padding: 1px 6px;
     font-size: 12px;
 }
 
@@ -107,11 +129,3 @@
  #chat-form #chat-container button:hover {
     color: #202020;
  }
-
- .dot {
-  height: 25px;
-  width: 25px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-}
