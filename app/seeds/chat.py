@@ -9,7 +9,7 @@ def seed_chat():
     for i in range(0, 100):
         another = Chat(content=faker.text(),
                     channel_id=random.randint(1, 37),
-                    owner_id=random.randint(1, 16)
+                    owner_id=random.randint(1, 14)
                     )
         db.session.add(another)
 

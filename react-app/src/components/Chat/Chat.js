@@ -47,14 +47,13 @@ const Chat = ({ server }) => {
             })
         }
         return (() => {
-                socket.disconnect()
+            socket.disconnect()
         })
     }, [channelId])
 
     const sendChat = async (e) => {
         e.preventDefault()
         socket.emit("chat", { user, chat: chatInput, channel_id: channelId });
-        // dispatch(chatPost(channelId, chatInput))
         setChatInput("")
     }
 
@@ -71,17 +70,20 @@ const Chat = ({ server }) => {
             const slicedLocalTime = localTime.slice(0, localTime.indexOf(":") + 3) + localTime.slice(localTime.indexOf(":") + 6) // remove the seconds time
             return (
                 <div id="previousMessages" key={chat.id}>
-                    <div className={isSessionUser ? "chat_user-active" : "Chat_user"}>
-                        {chat.user.username}
-                        {server.owner_id === chat.user.id && (
-                            <small id="admin-small-text">server admin</small>
-                        )}
-                        <small id="chat-date">{slicedLocalTime}</small>
-                        {isSessionUser && (
-                            <button id="btn-delete-chat" type="button" onClick={(e) => handleDeleteChat(e, chat)}>delete</button>
-                        )}
+                    <img className="avatar" src={`data:image/jpeg;base64,${chat?.user?.profile_picture}`} alt="profile image" />
+                    <div className="chat-wrapper">
+                        <div>
+                            <span className={isSessionUser ? "chat_user-active" : "Chat_user"}>{chat.user.username}</span>
+                            {server.owner_id === chat.user.id && (
+                                <small id="admin-small-text">server admin</small>
+                            )}
+                            <small id="chat-date">{slicedLocalTime}</small>
+                            {isSessionUser && (
+                                <button id="btn-delete-chat" type="button" onClick={(e) => handleDeleteChat(e, chat)}>delete</button>
+                            )}
+                        </div>
+                        <div id="Chat_message">{chat.content}</div>
                     </div>
-                    <div id="Chat_message">{chat.content}</div>
                 </div>
             );
         })

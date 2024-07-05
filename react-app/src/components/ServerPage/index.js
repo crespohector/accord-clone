@@ -9,7 +9,6 @@ import { getServer, removeMemberFromServer } from "../../store/servers";
 import { chatForChannel } from "../../store/chats"
 import UserBar from '../UserBar'
 import Chat from '../Chat/Chat'
-import About from '../auth/About';
 import Modal from "@material-ui/core/Modal";
 
 import './ServerPage.css';
@@ -154,7 +153,7 @@ const ServerPage = () => {
       </Modal>
 
       <div className="name">
-        <div>{server?.name}</div>
+        <div><h4>{server?.name}</h4></div>
         {isOwner && (
           <>
             <button className="server-btn">
@@ -217,9 +216,6 @@ const ServerPage = () => {
         ))}
       </div>
       <div className="options"></div>
-      <button className="about-btn">
-        <About />
-      </button>
     </div>
   );
 }

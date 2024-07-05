@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect, NavLink } from "react-router-dom";
 import { login } from "../../store/session";
+import { useLoading } from "../context/LoadingContext";
 
 import './LoginForm.css'
 
 const LoginForm = () => {
+  const { setIsLoading } = useLoading();
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,11 +16,13 @@ const LoginForm = () => {
 
   const onLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const data = await dispatch(login(email, password));
+    setIsLoading(false);
     if (data.errors) {
       const arr = [];
       data.errors.forEach(error => {
-        // "Email : email is invalid" => slice the error string after the ":"
+        // I.E)"Email : email is invalid" => slice the error string after the ":"
         const startIdx = error.indexOf(":") + 2;
         arr.push(error.slice(startIdx));
       })
@@ -39,7 +43,9 @@ const LoginForm = () => {
     const password = 'password';
     e.preventDefault();
     setErrors([]);
+    setIsLoading(true);
     const data = await dispatch(login(email, password));
+    setIsLoading(false);
     if (data.errors) {
       setErrors(data.errors);
     }

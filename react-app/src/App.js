@@ -13,6 +13,9 @@ import Chat from './components/Chat/Chat'
 import ServerPage from "./components/ServerPage"
 import Delete from './components/Delete';
 import Update from "./components/Update";
+import { LoadingProvider } from "./components/context/LoadingContext";
+import Loading from "./components/Loading";
+import About from "./components/auth/About";
 
 function App() {
   const user = useSelector(state => state.session.user)
@@ -20,7 +23,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    (async() => {
+    (async () => {
       await dispatch(authenticate());
       setLoaded(true);
     })();
@@ -31,45 +34,50 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      {user && (
-        <NavBar />
-      )}
-    <main>
-      <Switch>
-        <Route path="/login" exact={true}>
-          <LoginForm />
-        </Route>
-        <Route path="/sign-up" exact={true}>
-          <SignUpForm />
-        </Route>
-        <ProtectedRoute path="/users" exact={true} >
-          <UsersList/>
-        </ProtectedRoute>
-        <Route path="/chat" exact={true}>
-          <Chat />
-        </Route>
-        <ProtectedRoute path="/users/:userId" exact={true} >
-          <User />
-        </ProtectedRoute>
-        <ProtectedRoute path="/" exact={true} >
-          <Discover />
-        </ProtectedRoute>
-        <ProtectedRoute path="/servers/:id" exact={true}>
-          <ServerPage />
-        </ProtectedRoute>
-        <ProtectedRoute path="/servers/:id/delete" exact={true}>
-          <Delete />
-        </ProtectedRoute>
-        <ProtectedRoute path="/servers/:id/update" exact={true}>
-          <Update />
-        </ProtectedRoute>
-        <ProtectedRoute path="/servers/:id/channel/:channelId" exact={true}>
-          <ServerPage />
-        </ProtectedRoute>
-      </Switch>
-    </main>
-    </BrowserRouter>
+    <LoadingProvider>
+      <BrowserRouter>
+        {user && (
+          <NavBar />
+        )}
+        < Loading />
+        <main>
+          <Switch>
+            <Route path="/login" exact={true}>
+              <LoginForm />
+              <About />
+            </Route>
+            <Route path="/sign-up" exact={true}>
+              <SignUpForm />
+              <About />
+            </Route>
+            <ProtectedRoute path="/users" exact={true} >
+              <UsersList />
+            </ProtectedRoute>
+            <Route path="/chat" exact={true}>
+              <Chat />
+            </Route>
+            <ProtectedRoute path="/users/:userId" exact={true} >
+              <User />
+            </ProtectedRoute>
+            <ProtectedRoute path="/" exact={true} >
+              <Discover />
+            </ProtectedRoute>
+            <ProtectedRoute path="/servers/:id" exact={true}>
+              <ServerPage />
+            </ProtectedRoute>
+            <ProtectedRoute path="/servers/:id/delete" exact={true}>
+              <Delete />
+            </ProtectedRoute>
+            <ProtectedRoute path="/servers/:id/update" exact={true}>
+              <Update />
+            </ProtectedRoute>
+            <ProtectedRoute path="/servers/:id/channel/:channelId" exact={true}>
+              <ServerPage />
+            </ProtectedRoute>
+          </Switch>
+        </main>
+      </BrowserRouter>
+    </LoadingProvider>
   );
 }
 

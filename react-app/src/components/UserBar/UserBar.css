@@ -3,16 +3,24 @@
    position: fixed;
    bottom: 0px;
    left: 72px;
-   /* height: 52px; */
    height: 7vh;
    background-color: #292B2F;
    display: flex;
    align-items: center;
-   justify-content: space-around;
+   justify-content: space-evenly;
    color: #fff;
 }
 
-#userbar {
-   color: white;
-   margin-left: 5px;
+#userbar__container div {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   height: 100%;
+   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#userbar__container img {
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
 }

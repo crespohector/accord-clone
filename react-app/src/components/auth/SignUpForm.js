@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { Redirect, NavLink } from 'react-router-dom';
-import { login } from "../../store/session";
 import { signUp } from '../../store/session';
+import { useLoading } from "../context/LoadingContext";
 import './SignUpForm.css'
 
 const SignUpForm = () => {
@@ -11,17 +11,44 @@ const SignUpForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+  const [file, setFile] = useState(null);
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
+  const { setIsLoading } = useLoading();
 
   const onSignUp = async (e) => {
     e.preventDefault();
+    const errorArr = [];
+    const validImageTypes = new Set(["image/png", "image/jpg", "image/jpeg"])
+
+    //check if profile image is < than 2MB
+    if (file.size > 2000400) {
+      errorArr.push("File is too large. Please select a file smaller than 2MB.")
+    }
+
+    // only accept .png, .jpg, .jpeg
+    if (!validImageTypes.has(file.type)) {
+      errorArr.push("Please select a file with only .png, .jpeg, or .jpg extensions.");
+    }
+
     //check if passwords are mismatched
     if (password !== repeatPassword) {
-      setErrors(["Passwords are mismatched"]);
-      return;
+      errorArr.push("Passwords are mismatched")
     }
-    const res = await dispatch(signUp(username, email, password))
+    // display any errors
+    if (errorArr.length > 0) {
+      setErrors(errorArr);
+      return
+    };
+
+    // render loading animation
+    setIsLoading(true);
+    const res = await dispatch(signUp(username, email, password, file));
+    // stop loading animation
+    setIsLoading(false);
+    if (res.error >= 500) {
+      setErrors(["Internal server error, please try to refresh or contact the team."])
+    }
     // check if errors property exist
     if (res.errors) {
       const arr = [];
@@ -50,13 +77,6 @@ const SignUpForm = () => {
     setRepeatPassword(e.target.value);
   };
 
-  const demoLogin = async (e) => {
-    const email = 'demo@aa.io';
-    const password = 'password';
-    e.preventDefault();
-    await dispatch(login(email, password));
-  }
-
   if (user) {
     return <Redirect to="/" />;
   }
@@ -80,6 +100,7 @@ const SignUpForm = () => {
             <input
               type="text"
               name="username"
+              className="signup-input"
               onChange={updateUsername}
               value={username}
               required
@@ -90,6 +111,7 @@ const SignUpForm = () => {
             <input
               type="text"
               name="email"
+              className="signup-input"
               onChange={updateEmail}
               value={email}
               required
@@ -100,6 +122,7 @@ const SignUpForm = () => {
             <input
               type="password"
               name="password"
+              className="signup-input"
               onChange={updatePassword}
               value={password}
               required
@@ -111,11 +134,16 @@ const SignUpForm = () => {
             <input
               type="password"
               name="repeat_password"
+              className="signup-input"
               onChange={updateRepeatPassword}
               value={repeatPassword}
               required={true}
               minLength={4}
             ></input>
+          </div>
+          <div>
+            <label className="form_label">Select Profile Image</label>
+            <input type="file" name="profile_img" className="form-input" onChange={e => setFile(e.target.files[0])} accept=".png, .jpg, .jpeg" required />
           </div>
           <button type="submit" className="button">Sign Up</button>
           <NavLink to="/login" id="login__link">Already have an account?</NavLink>

@@ -3,7 +3,6 @@ import { getServers, addMemberToServer } from "../../store/servers";
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from "react-router-dom";
 import UserBar from "../UserBar"
-import About from "../auth/About"
 import './Discover.css'
 
 function Discover() {
@@ -50,7 +49,7 @@ function Discover() {
                      <input type="hidden" name="server_id" value={server.id}></input>
                      <div className="server__container">
                         <div className="server__container--img">
-                           <img src={`data:image/jpeg;base64,${server?.img_url}`}></img>
+                           <img src={`data:image/jpeg;base64,${server?.img_url}`} alt="server image" />
                         </div>
                         <div className="server__container--title">{server.name}</div>
                         {userservers[server?.id] ? (
@@ -72,9 +71,6 @@ function Discover() {
                ))}
             </div>
          </div>
-         <button className="about-btn">
-            <About />
-         </button>
       </div>
    )
 }
